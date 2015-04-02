@@ -105,10 +105,10 @@ public class Connector{
         //request.URL = NSURL.URLWithString(self.getAuthUrl(type))
         request.URL = NSURL(string: self.getAuthUrl(type))
         
-        
         // Sending Synchronous request using NSURLConnection
         
         var tokenData = NSURLConnection.sendSynchronousRequest(request,returningResponse: response, error: error)
+        
         //println(AccessToken)
         
         if error != nil
@@ -136,6 +136,7 @@ public class Connector{
                 }
             }
         }
+        
     }
     
     public func GetSessionID() {

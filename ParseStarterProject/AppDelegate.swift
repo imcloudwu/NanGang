@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let types = UIRemoteNotificationType.Badge | UIRemoteNotificationType.Alert | UIRemoteNotificationType.Sound
             application.registerForRemoteNotificationTypes(types)
         }
-
+        
         return true
     }
 
@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installation.addUniqueObject("V", forKey: "channels")
+        Global.MyDeviceToken = installation.deviceToken
         installation.saveInBackground()
         
         PFPush.subscribeToChannelInBackground("", block: { (succeeded: Bool, error: NSError!) -> Void in
@@ -110,6 +110,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFPush.handlePush(userInfo)
         if application.applicationState == UIApplicationState.Inactive {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+        }
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication){
+        let installation = PFInstallation.currentInstallation()
+        
+        if installation.badge != 0{
+            installation.badge = 0
+            installation.saveEventually()
         }
     }
 

@@ -1,0 +1,80 @@
+//
+//  CustomCell.swift
+//  App
+//
+//  Created by Cloud on 10/23/14.
+//  Copyright (c) 2014 Cloud. All rights reserved.
+//
+
+import UIKit
+
+class HeaderCell: UICollectionReusableView {
+    
+    @IBOutlet weak var title: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        title.text = "test header!!!"
+        // Initialization code
+    }
+}
+
+class FooterCell: UICollectionReusableView {
+    
+    
+    @IBOutlet weak var title: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        title.text = "test footer!!!"
+        // Initialization code
+    }
+}
+
+class AbsenceCell: UITableViewCell {
+    
+    @IBOutlet weak var absenceType: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var period: UILabel!
+    @IBOutlet weak var cellView: UIView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        //        cellView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        //        absenceType.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        
+        absenceType.layer.cornerRadius = 5
+        absenceType.layer.masksToBounds = true
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        //super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+    
+}
+
+class ExamScoreTitleCell: UITableViewCell {
+    
+    @IBOutlet weak var domain: UILabel!
+    @IBOutlet weak var score: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 5
+        self.backgroundColor = UIColor(red: 217.0/255.0, green: 1, blue: 196.0/255.0, alpha: 0.8)
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        //super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+}
+
+

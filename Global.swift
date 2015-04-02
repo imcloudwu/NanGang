@@ -13,6 +13,67 @@ struct Global {
     static var connector:Connector!
     static var Loading = LoadingIndicator()
     static var SelectPicId:String!
+    static var MyGroups:[GroupItem]!
+    static var MyDeviceToken:String!
+    
+    static func GenerateChannelString(dsns:String,groupId:String) -> String{
+        return "channel_\(dsns.sha1())_\(groupId)"
+    }
+}
+
+//回傳一張縮放後的圖片
+extension UIImage{
+    func GetResizeImage(scale:CGFloat) -> UIImage{
+        
+        var width = self.size.width
+        var height = self.size.height
+        
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(width * scale, height * scale), false, 1)
+        self.drawInRect(CGRectMake(0, 0, width * scale, height * scale))
+        
+        var newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    func GetResizeImage(width:CGFloat, height:CGFloat) -> UIImage{
+        
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), false, 1)
+        self.drawInRect(CGRectMake(0, 0, width, height))
+        
+        var newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+}
+
+extension String {
+    func sha1() -> String {
+        let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
+        var digest = [UInt8](count:Int(CC_SHA1_DIGEST_LENGTH), repeatedValue: 0)
+        CC_SHA1(data.bytes, CC_LONG(data.length), &digest)
+        let output = NSMutableString(capacity: Int(CC_SHA1_DIGEST_LENGTH))
+        for byte in digest {
+            output.appendFormat("%02x", byte)
+        }
+        return output
+    }
+}
+
+extension String {
+    public var dataValue: NSData {
+        return dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+    }
+}
+
+extension NSData {
+    public var stringValue: String {
+        return NSString(data: self, encoding: NSUTF8StringEncoding)!
+    }
 }
 
 class LoadingIndicator {
@@ -71,5 +132,10 @@ class LoadingIndicator {
         let blue = CGFloat(rgbValue & 0xFF)/256.0
         return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
     }
-    
+}
+
+struct GroupItem {
+    var GroupId:String
+    var GroupName:String
+    var ChannelName:String
 }

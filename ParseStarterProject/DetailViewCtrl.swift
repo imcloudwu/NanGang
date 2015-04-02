@@ -9,12 +9,20 @@
 import UIKit
 import Parse
 
-class DetailViewCtrl: UIViewController {
+class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
     
-    @IBOutlet weak var imgView: UIImageView!
+    @IBOutlet weak var scrView: UIScrollView!
+    
+    @IBOutlet weak var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //self.automaticallyAdjustsScrollViewInsets = false
+        
+        scrView.delegate = self
+        scrView.maximumZoomScale = 2.0
+        scrView.minimumZoomScale = 1.0
         
         Global.Loading.showActivityIndicator(self.view)
         
@@ -29,7 +37,8 @@ class DetailViewCtrl: UIViewController {
         
         file.getDataInBackgroundWithBlock { (NSData, NSError) -> Void in
             if let img = UIImage(data: NSData){
-                self.imgView.image = img
+                self.imageView.image = img
+                
                 Global.Loading.hideActivityIndicator(self.view)
             }
         }
@@ -38,6 +47,10 @@ class DetailViewCtrl: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?{
+        return self.imageView
     }
 }
 
