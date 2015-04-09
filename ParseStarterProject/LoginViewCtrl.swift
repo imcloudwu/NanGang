@@ -75,7 +75,7 @@ class LoginViewCtrl : UIViewController {
         var request = NSMutableURLRequest()
         
         //request.URL = NSURL.URLWithString(self.getAuthUrl(type))
-        request.URL = NSURL(string: "https://dsns.1campus.net/\(con.AccessPoint)/sakura/GetMyGroup?stt=PassportAccessToken&AccessToken=\(con.AccessToken)")
+        request.URL = NSURL(string: "http://dsns.1campus.net/\(con.AccessPoint)/sakura/GetMyGroup?stt=PassportAccessToken&AccessToken=\(con.AccessToken)")
         
         // Sending Synchronous request using NSURLConnection
         
@@ -94,7 +94,7 @@ class LoginViewCtrl : UIViewController {
                 var register_groups = [GroupItem]()
                 
                 //println(tokenData)
-                var str = NSString(data: data, encoding: NSUTF8StringEncoding)
+                //var str = NSString(data: data, encoding: NSUTF8StringEncoding)
                 //println(str)
                 
                 var xml = SWXMLHash.parse(data)

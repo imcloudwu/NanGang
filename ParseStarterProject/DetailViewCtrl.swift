@@ -15,8 +15,15 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet weak var comment: UILabel!
+    
+    var _SelectPicId:String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var button = UIBarButtonItem(title: "刪除", style: UIBarButtonItemStyle.Plain, target: self, action: "DeleteImg")
+        self.navigationItem.rightBarButtonItem  = button
         
         //self.automaticallyAdjustsScrollViewInsets = false
         
@@ -29,15 +36,17 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
         var query = PFQuery(className: "PhotoData")
         
         //指定條件
-        query.whereKey("objectId", equalTo: Global.SelectPicId)
+        query.whereKey("objectId", equalTo: _SelectPicId)
         
         var pfObject = query.getFirstObject()
         
         let file = pfObject["detail"] as PFFile
+        let picComment = pfObject["comment"] as String
         
         file.getDataInBackgroundWithBlock { (NSData, NSError) -> Void in
             if let img = UIImage(data: NSData){
                 self.imageView.image = img
+                self.comment.text = picComment
                 
                 Global.Loading.hideActivityIndicator(self.view)
             }
@@ -51,6 +60,38 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?{
         return self.imageView
+    }
+    
+    func DeleteImg(){
+        
+        var query = PFQuery(className: "PhotoData")
+        
+        //指定條件
+        //query.whereKey("objectId", equalTo: _SelectPicId)
+        
+        //var pfObject = query.getFirstObject()
+        
+        query.getObjectInBackgroundWithId(_SelectPicId) { (PFObject, NSError) -> Void in
+            PFObject.deleteInBackgroundWithBlock({ (succeed, error) -> Void in
+                if succeed{
+                    let alert = UIAlertView()
+                    alert.title = "系統訊息"
+                    alert.message = "刪除成功"
+                    alert.addButtonWithTitle("OK")
+                    alert.show()
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+                else{
+                    let alert = UIAlertView()
+                    alert.title = "系統訊息"
+                    alert.message = "刪除失敗:\(error.userInfo)"
+                    alert.addButtonWithTitle("OK")
+                    alert.show()
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                }
+            })
+        }
+        
     }
 }
 

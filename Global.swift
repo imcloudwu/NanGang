@@ -12,7 +12,7 @@ import UIKit
 struct Global {
     static var connector:Connector!
     static var Loading = LoadingIndicator()
-    static var SelectPicId:String!
+    //static var SelectPicId:String!
     static var MyGroups:[GroupItem]!
     static var MyDeviceToken:String!
     

@@ -14,7 +14,9 @@ class HeaderCell: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        title.text = "test header!!!"
+        title.text = "this is a header"
+        title.layer.cornerRadius = 5
+        title.layer.masksToBounds = true
         // Initialization code
     }
 }
@@ -31,12 +33,11 @@ class FooterCell: UICollectionReusableView {
     }
 }
 
-class AbsenceCell: UITableViewCell {
+class PhotoCell: UITableViewCell {
     
-    @IBOutlet weak var absenceType: UILabel!
-    @IBOutlet weak var date: UILabel!
-    @IBOutlet weak var period: UILabel!
-    @IBOutlet weak var cellView: UIView!
+    
+    @IBOutlet weak var Image: UIImageView!
+    @IBOutlet weak var Comment: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,8 +45,8 @@ class AbsenceCell: UITableViewCell {
         //        cellView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         //        absenceType.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         
-        absenceType.layer.cornerRadius = 5
-        absenceType.layer.masksToBounds = true
+        //absenceType.layer.cornerRadius = 5
+        //absenceType.layer.masksToBounds = true
         // Initialization code
     }
     
