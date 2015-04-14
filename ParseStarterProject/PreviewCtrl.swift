@@ -14,15 +14,23 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     
     //var _data:[CustomImg]!
     
+    let refreshControl = UIRefreshControl()
+    
     var _groupList:[String]!
     var _mappingData:[String:[CustomImg]]!
     
     var _UICollectionReusableView : HeaderCell!
     
     @IBOutlet weak var _collectionView: UICollectionView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        _collectionView.alwaysBounceVertical = true
+        
+        self.refreshControl.attributedTitle = NSAttributedString(string: "")
+        self.refreshControl.addTarget(self, action: "Refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self._collectionView.addSubview(refreshControl)
         
         self.navigationItem.title = "相片瀏覽"
         
@@ -31,15 +39,26 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
         
         _groupList = [String]()
         _mappingData = [String:[CustomImg]]()
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         
-        Global.Loading.showActivityIndicator(self.view)
+        if Global.Installation.badge != 0 || Global.PreviewViewUpdate{
+            Global.Installation.badge = 0
+            Global.Installation.saveEventually()
+            Global.PreviewViewUpdate = false
+            Refresh()
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
         
-        _groupList.removeAll(keepCapacity: false)
-        _mappingData.removeAll(keepCapacity: false)
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func Refresh(){
+        Global.Loading.showActivityIndicator(self.view)
         
         var query = PFQuery(className: "PhotoData")
         
@@ -55,8 +74,12 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
         }
         
         query.whereKey("channel",containedIn: myChannelList)
+        query.orderByAscending("createdAt")
         
         query.findObjectsInBackgroundWithBlock { (objects, NSError) -> Void in
+            
+            self._groupList.removeAll(keepCapacity: false)
+            self._mappingData.removeAll(keepCapacity: false)
             
             //loop結果
             for object in objects{
@@ -85,6 +108,8 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
             }
             
             Global.Loading.hideActivityIndicator(self.view)
+            self._collectionView.reloadData()
+            self.refreshControl.endRefreshing()
             
             if objects.count == 0{
                 let alert = UIAlertView()
@@ -93,15 +118,7 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
                 alert.addButtonWithTitle("OK")
                 alert.show()
             }
-            
-            self._collectionView.reloadData()
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

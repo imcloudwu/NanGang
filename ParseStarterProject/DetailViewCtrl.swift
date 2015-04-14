@@ -22,9 +22,6 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var button = UIBarButtonItem(title: "刪除", style: UIBarButtonItemStyle.Plain, target: self, action: "DeleteImg")
-        self.navigationItem.rightBarButtonItem  = button
-        
         //self.automaticallyAdjustsScrollViewInsets = false
         
         scrView.delegate = self
@@ -42,11 +39,18 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
         
         let file = pfObject["detail"] as PFFile
         let picComment = pfObject["comment"] as String
+        let groupName = pfObject["group"] as String
         
         file.getDataInBackgroundWithBlock { (NSData, NSError) -> Void in
             if let img = UIImage(data: NSData){
                 self.imageView.image = img
                 self.comment.text = picComment
+                
+                //老師身份新增刪除按鈕
+                if Global.GetGroupItem(groupName)?.IsTeacher == true {
+                    var button = UIBarButtonItem(title: "刪除", style: UIBarButtonItemStyle.Plain, target: self, action: "DeleteImg")
+                    self.navigationItem.rightBarButtonItem  = button
+                }
                 
                 Global.Loading.hideActivityIndicator(self.view)
             }
@@ -74,6 +78,10 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate {
         query.getObjectInBackgroundWithId(_SelectPicId) { (PFObject, NSError) -> Void in
             PFObject.deleteInBackgroundWithBlock({ (succeed, error) -> Void in
                 if succeed{
+                    
+                    Global.LastNewsViewUpdate = true
+                    Global.PreviewViewUpdate = true
+                    
                     let alert = UIAlertView()
                     alert.title = "系統訊息"
                     alert.message = "刪除成功"

@@ -58,16 +58,19 @@ class PhotoCell: UITableViewCell {
     
 }
 
-class ExamScoreTitleCell: UITableViewCell {
+class LastNewsCell: UITableViewCell {
     
-    @IBOutlet weak var domain: UILabel!
-    @IBOutlet weak var score: UILabel!
+    @IBOutlet weak var GroupName: UILabel!
+    @IBOutlet weak var Comment: UILabel!
+    @IBOutlet weak var Image: UIImageView!
+    @IBOutlet weak var Icon: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 5
-        self.backgroundColor = UIColor(red: 217.0/255.0, green: 1, blue: 196.0/255.0, alpha: 0.8)
+        //Comment.sizeToFit()
+//        self.layer.masksToBounds = true
+//        self.layer.cornerRadius = 5
+//        self.backgroundColor = UIColor(red: 217.0/255.0, green: 1, blue: 196.0/255.0, alpha: 0.8)
         // Initialization code
     }
     

@@ -114,12 +114,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication){
-        let installation = PFInstallation.currentInstallation()
-        
-        if installation.badge != 0{
-            installation.badge = 0
-            installation.saveEventually()
-        }
+//        let installation = PFInstallation.currentInstallation()
+//        
+//        if installation.badge != 0{
+//            installation.badge = 0
+//            installation.saveEventually()
+//        }
     }
 
     ///////////////////////////////////////////////////////////

@@ -8,17 +8,63 @@
 
 import Foundation
 import UIKit
+import Parse
 
 struct Global {
     static var connector:Connector!
     static var Loading = LoadingIndicator()
+    static var LoginInstance:LoginViewCtrl!
     //static var SelectPicId:String!
+    
+    static var DSNSList = [String:Bool]()
     static var MyGroups:[GroupItem]!
     static var MyDeviceToken:String!
     
-    static func GenerateChannelString(dsns:String,groupId:String) -> String{
+    static var Installation = PFInstallation.currentInstallation()
+    static var LastNewsViewUpdate = true
+    static var PreviewViewUpdate = true
+    
+    static func GenerateChannelString(dsns:String,groupId:String!) -> String{
         return "channel_\(dsns.sha1())_\(groupId)"
     }
+    
+    static func GetGroupItem(name:String) -> GroupItem?{
+        
+        for group in MyGroups{
+            if group.GroupName == name{
+                return group
+            }
+        }
+        
+        return nil
+    }
+    
+    static func TeacherGroups() -> [GroupItem]{
+        
+        var retVal = [GroupItem]()
+        
+        for group in MyGroups{
+            if group.IsTeacher{
+                retVal.append(group)
+            }
+        }
+        
+        return retVal
+    }
+    
+    static func HasDSNS(name:String) -> Bool{
+        for dsns in DSNSList{
+            if dsns.0 == name{
+                return true
+            }
+        }
+        
+        return false
+    }
+}
+
+func GetDoorWayURL(dsns:String) -> String{
+    return "http://dsns.ischool.com.tw/dsns/dsns/DS.NameService.GetDoorwayURL?content=%3Ca%3E\(dsns)%3C/a%3E"
 }
 
 //回傳一張縮放後的圖片
@@ -73,6 +119,39 @@ extension String {
 extension NSData {
     public var stringValue: String {
         return NSString(data: self, encoding: NSUTF8StringEncoding)!
+    }
+}
+
+extension NSDate {
+    public var stringValue: String {
+        
+        let secondsAgo:NSTimeInterval = self.timeIntervalSinceNow
+        
+        let value = -1*secondsAgo
+        
+        let day = Int(value / (60*60*24))
+        let hour = Int(value / (60*60))
+        let min = Int(value / (60))
+        let sec = Int(value)
+        
+        if day > 3 {
+            let dateStr = "\(self)"
+            
+            return dateStr.substringToIndex(advance(dateStr.startIndex, 10))
+        }
+        else if day > 0 {
+            return "\(day) 天以前"
+        }
+        else if hour > 0 {
+            return "\(hour) 小時以前"
+        }
+        else if min > 0 {
+            return "\(min) 分鐘以前"
+        }
+        else{
+            return "\(sec) 秒以前"
+        }
+
     }
 }
 
@@ -135,7 +214,8 @@ class LoadingIndicator {
 }
 
 struct GroupItem {
-    var GroupId:String
-    var GroupName:String
-    var ChannelName:String
+    var GroupId:String!
+    var GroupName:String!
+    var ChannelName:String!
+    var IsTeacher:Bool
 }

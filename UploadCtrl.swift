@@ -14,6 +14,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     @IBOutlet weak var tableView: UITableView!
     
     var _data = [PhotoObj]()
+    var _group:[GroupItem]!
     
     var sourceActionSheet:UIActionSheet!
     var groupActionSheet:UIActionSheet!
@@ -23,7 +24,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         
         self.automaticallyAdjustsScrollViewInsets = false
         
-        self.navigationItem.title = "上傳相片"
+        self.navigationItem.title = "上傳照片(\(self._data.count))"
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -37,7 +38,8 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         
         groupActionSheet = UIActionSheet(title: "請選擇要上傳的群組", delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil)
         
-        for group in Global.MyGroups{
+        _group = Global.TeacherGroups()
+        for group in _group{
             groupActionSheet.addButtonWithTitle(group.GroupName)
         }
     }
@@ -55,6 +57,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         if editingStyle == UITableViewCellEditingStyle.Delete{
             self._data.removeAtIndex(indexPath.row)
             tableView.reloadData()
+            self.navigationItem.title = "上傳照片(\(self._data.count))"
         }
     }
     
@@ -119,15 +122,15 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         for data in self._data{
             
             var detail_file = PFFile(data: UIImageJPEGRepresentation(data.Image,0.8))
-            var preview_file = PFFile(data: UIImageJPEGRepresentation(data.Image.GetResizeImage(0.1), 0.8))
+            var preview_file = PFFile(data: UIImageJPEGRepresentation(data.Image.GetResizeImage(0.3), 0.1))
             
             var object = PFObject(className: "PhotoData")
             object.ACL.setPublicWriteAccess(true)
             object["preview"] = preview_file
             object["detail"] = detail_file
-            object["channel"] = Global.MyGroups[groupIndex].ChannelName
+            object["channel"] = _group[groupIndex].ChannelName
             object["comment"] = data.Comment
-            object["group"] = Global.MyGroups[groupIndex].GroupName
+            object["group"] = _group[groupIndex].GroupName
             
             uploadData.append(object)
         }
@@ -137,8 +140,12 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
             
             self._data.removeAll(keepCapacity: false)
             self.tableView.reloadData()
+            self.navigationItem.title = "上傳照片(\(self._data.count))"
             
             Global.Loading.hideActivityIndicator(self.view)
+            
+            Global.LastNewsViewUpdate = true
+            Global.PreviewViewUpdate = true
             
             let alert = UIAlertView()
             alert.title = "系統訊息"
@@ -154,7 +161,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
             
             var pushQuery = PFInstallation.query()
             pushQuery.whereKey("deviceToken", notEqualTo: Global.MyDeviceToken)
-            pushQuery.whereKey("channels", equalTo: Global.MyGroups[groupIndex].ChannelName)
+            pushQuery.whereKey("channels", equalTo: self._group[groupIndex].ChannelName)
             
             var push = PFPush()
             push.setQuery(pushQuery)
@@ -173,8 +180,8 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
                 if (UIImagePickerController.isSourceTypeAvailable(.SavedPhotosAlbum)) {
                     
                     var customPicker = ELCImagePickerController(imagePicker: ())
-                    customPicker.maximumImagesCount = 5 //Set the maximum number of images to select, defaults to 4
-                    customPicker.returnsOriginalImage = true //Only return the fullScreenImage, not the fullResolutionImage
+                    customPicker.maximumImagesCount = 10 //Set the maximum number of images to select, defaults to 4
+                    customPicker.returnsOriginalImage = false //Only return the fullScreenImage, not the fullResolutionImage
                     customPicker.returnsImage = true //Return UIimage if YES. If NO, only return asset location information
                     customPicker.onOrder = true //For multiple image selection, display and return selected order of images
                     customPicker.imagePickerDelegate = self
@@ -202,6 +209,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         }
     }
     
+    //相機使用
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
         
         var choseImage = info[UIImagePickerControllerOriginalImage] as UIImage
@@ -212,21 +220,24 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         self._data.append(PhotoObj(Image: shrinkedImage, Comment: ""))
         
         tableView.reloadData()
+        self.navigationItem.title = "上傳照片(\(self._data.count))"
         
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //相簿使用
     func elcImagePickerController(picker:ELCImagePickerController, didFinishPickingMediaWithInfo info:[AnyObject]) -> (){
         
         for each in info{
             var img = each[UIImagePickerControllerOriginalImage] as UIImage
             //縮小一半尺寸
-            var shrinkedImage = img.GetResizeImage(0.5)
+            //var shrinkedImage = img.GetResizeImage(0.5)
             
-            self._data.append(PhotoObj(Image: shrinkedImage, Comment: ""))
+            self._data.append(PhotoObj(Image: img, Comment: ""))
         }
         
         tableView.reloadData()
+        self.navigationItem.title = "上傳照片(\(self._data.count))"
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -1,156 +1,216 @@
 //
-//  ViewController.swift
+//  DetailViewCtrl.swift
+//  NanGang
 //
-//  Copyright 2011-present Parse Inc. All rights reserved.
+//  Created by Cloud on 04/09/15.
+//  Copyright (c) 2015 Parse. All rights reserved.
 //
 
 import UIKit
 import Parse
 
-class LoginViewCtrl : UIViewController {
-
+class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
+    
+    @IBOutlet weak var webView: UIWebView!
+    
     var _con:Connector!
-    
-    var isValidated = false
-    
-    @IBOutlet weak var account: UITextField!
-    
-    @IBOutlet weak var password: UITextField!
-    
-    @IBOutlet weak var btnLogin: UIButton!
-    
-    @IBAction func btnClick(sender: AnyObject) {
-        
-        Global.Loading.showActivityIndicator(self.view)
-        
-        let aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        
-        dispatch_async(aQueue) { () -> Void in
-            self.LoginWithGreening()
-            
-            dispatch_async(dispatch_get_main_queue()){
-                Global.Loading.hideActivityIndicator(self.view)
-                
-                if self.isValidated{
-                    
-                    Keychain.save("account", data: self.account.text.dataValue)
-                    Keychain.save("password", data: self.password.text.dataValue)
-                    
-                    let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as UIViewController
-                    self.presentViewController(nextView, animated: true, completion: nil)
-                }
-                else{
-                    let alert = UIAlertView()
-                    alert.title = "登入失敗"
-                    alert.message = "帳號密碼可能錯誤"
-                    alert.addButtonWithTitle("OK")
-                    alert.show()
-                }
-            }
-        }
-    }
+    var _registerGroups = [GroupItem]()
+    var _dsnsList = [String:Bool]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let accountValue = Keychain.load("account")?.stringValue{
-            if let passwordValue = Keychain.load("password")?.stringValue{
-                account.text = accountValue
-                password.text = passwordValue
-            }
-        }
+        Global.LoginInstance = self
         
-        // Do any additional setup after loading the view, typically from a nib.
+        _con = Connector(authUrl: "https://auth.ischool.com.tw/oauth/token.php", accessPoint: "https://auth.ischool.com.tw:8443/dsa/greening", contract: "user")
+        
+        _con.ClientID = "8e306edeffab96c8bdc6c8635cd54b9e"
+        _con.ClientSecret = "b6b23657bfc3fc7dbf1014712308b005cae629b62376fac5f5a01632df91574e"
+        
+        //處理事件
+        webView.delegate=self
+        
+        //禁止縮放
+        webView.scrollView.delegate = self;
+        
+        //載入登入頁面
+        //        var target = "https://auth.ischool.com.tw/logout.php?next=oauth%2Fauthorize.php%3Fclient_id%3D8e306edeffab96c8bdc6c8635cd54b9e%26response_type%3Dcode%26state%3Dredirect_uri%253A%252F%26redirect_uri%3Dhttp%3A%2F%2Fblank%26lang%3Dzh-tw%26scope%3DUser.Mail%2CUser.BasicInfo"
+        
+        var target = "https://auth.ischool.com.tw/logout.php?next=oauth%2Fauthorize.php%3Fclient_id%3D8e306edeffab96c8bdc6c8635cd54b9e%26response_type%3Dcode%26state%3Dredirect_uri%253A%252F%26redirect_uri%3Dhttp%3A%2F%2Fblank%26lang%3Dzh-tw"
+        
+        var urlobj = NSURL(string: target)
+        var request = NSURLRequest(URL: urlobj!)
+        webView.loadRequest(request)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func RegisterGroup(con:Connector){
-        var response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil
-        var error: NSErrorPointer = nil
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError){
         
-        var request = NSMutableURLRequest()
-        
-        //request.URL = NSURL.URLWithString(self.getAuthUrl(type))
-        request.URL = NSURL(string: "http://dsns.1campus.net/\(con.AccessPoint)/sakura/GetMyGroup?stt=PassportAccessToken&AccessToken=\(con.AccessToken)")
-        
-        // Sending Synchronous request using NSURLConnection
-        
-        var tokenData = NSURLConnection.sendSynchronousRequest(request,returningResponse: response, error: error)
-        //println(AccessToken)
-        
-        if error != nil
-        {
-            // You can handle error response here
-            println("Get AccessToken error: \(error)")
-        }
-        else
-        {
-            if let data = tokenData as NSData?{
-                
-                var register_groups = [GroupItem]()
-                
-                //println(tokenData)
-                //var str = NSString(data: data, encoding: NSUTF8StringEncoding)
-                //println(str)
-                
-                var xml = SWXMLHash.parse(data)
-                
-                for group in xml["Body"]["Group"]{
-                    if let groupId = group["GroupId"].element?.text{
-                        if let groupName = group["GroupName"].element?.text{
-                            
-                            var channelName = Global.GenerateChannelString(con.AccessPoint, groupId: groupId)
-                            
-                            var item = GroupItem(GroupId: groupId,GroupName: groupName,ChannelName: channelName)
-                            
-                            register_groups.append(item)
-                        }
-                    }
+        //取得code
+        if error.domain == "NSURLErrorDomain" && error.code == -1003{
+            if let url = error.userInfo?["NSErrorFailingURLStringKey"] as? String{
+                if let range = url.rangeOfString("http://blank/?state=redirect_uri%3A%2F&code="){
+                    var code = url
+                    code.removeRange(range)
+                    
+                    //println(code)
+                    Auth(code)
                 }
-                
-                if(register_groups.count > 0){
-                    
-                    let installation = PFInstallation.currentInstallation()
-                    
-                    installation.channels = [""]
-                    //installation.removeObject("xyz_abc", forKey: "channels")
-                    
-                    var channelList = [String]()
-                    
-                    for group in register_groups{
-                        channelList.append(group.ChannelName)
-                    }
-                    
-                    installation.addUniqueObjectsFromArray(channelList, forKey: "channels")
-                    installation.saveInBackground()
-                }
-                
-                Global.MyGroups = register_groups
             }
         }
     }
     
-    func LoginWithGreening(){
-        _con = Connector(authUrl: "https://auth.ischool.com.tw/oauth/token.php", accessPoint: "https://auth.ischool.com.tw:8443/dsa/greening", contract: "user")
-        _con.ClientID = "5e89bdfbf971974e3b53312384c0013a"
-        _con.ClientSecret = "855b8e05afadc32a7a2ecbf0b09011422e5e84227feb5449b1ad60078771f979"
-        _con.UserName = self.account.text
-        _con.Password = self.password.text
+    func Auth(code:String){
         
-        if _con.IsValidated("greening"){
+        Global.Loading.showActivityIndicator(self.view)
+        
+        _con.Code = code
+        _con.GetAccessToken("Code")
+        _con.GetSessionID()
+        
+        Global.connector = _con
+        
+        GetDSNSList(self)
+    }
+    
+    func GetDSNSList(sender:UIViewController){
+        
+        //清空DSNS清單
+        _dsnsList.removeAll(keepCapacity: false)
+        //清空準備要註冊的頻道
+        _registerGroups.removeAll(keepCapacity: false)
+        
+        //取得DSNS清單
+        _con.SendRequest("GetApplicationListRef", body: "<Request><Type>dynpkg</Type></Request>") { (response) -> () in
+            //println(NSString(data: response, encoding: NSUTF8StringEncoding))
+            var xml = SWXMLHash.parse(response)
             
-            isValidated = true
+            //User
+            for elem in xml["Envelope"]["Body"]["Response"]["User"]["App"]{
+                if let dsns = elem.element?.attributes["AccessPoint"]{
+                    self._dsnsList[dsns] = false
+                }
+            }
             
-            Global.connector = _con
+            //Domain
+            for elem in xml["Envelope"]["Body"]["Response"]["Domain"]["App"]{
+                if let dsns = elem.element?.attributes["AccessPoint"]{
+                    self._dsnsList[dsns] = false
+                }
+            }
             
-            var cloneCon = _con.Clone()
-            cloneCon.AccessPoint = "demo.ischool.j"
+            Global.DSNSList = self._dsnsList
             
-            RegisterGroup(cloneCon)
+            for dsns in self._dsnsList{
+                var con = self._con.Clone()
+                con.DSNS = dsns.0
+                
+                con.SetAccessPointWithCallback({ () -> () in
+                    
+                    //取得群組
+                    self.GetMyGroup(con, complete: { () -> () in
+                        
+                        //callback有回來就設定為完成
+                        self._dsnsList[con.DSNS] = true
+                        
+                        self.MoveToNextView(sender)
+                    })
+                })
+            }
+            
+            if self._dsnsList.count == 0{
+                self.MoveToNextView(sender)
+            }
         }
     }
+    
+    func GetMyGroup(con:Connector,complete:() -> ()){
+        
+        HttpClient.Get("http://dsns.1campus.net/\(con.DSNS)/sakura/GetMyGroup?stt=PassportAccessToken&AccessToken=\(con.AccessToken)"){ (nsData) -> () in
+            
+            //println("=======\(con.DSNS)======")
+            //println(NSString(data: nsData, encoding: NSUTF8StringEncoding))
+            
+            if let data = nsData as NSData?{
+                
+                var xml = SWXMLHash.parse(data)
+                
+                //不支援的DSNS在這邊就不會繼續做下去
+                for group in xml["Body"]["Group"]{
+                    
+                    let groupId = group["GroupId"].element?.text
+                    let groupName = group["GroupName"].element?.text
+                    let isTeacher = group["IsTeacher"].element?.text == "true" ? true : false
+                    
+                    var channelName = Global.GenerateChannelString(con.DSNS, groupId: groupId)
+                    
+                    var item = GroupItem(GroupId: groupId, GroupName: groupName, ChannelName: channelName, IsTeacher: isTeacher)
+                    
+                    self._registerGroups.append(item)
+                }
+            }
+            
+            complete()
+        }
+        
+    }
+    
+    //註冊推播頻道
+    func RegisterGroup(){
+        
+        if(self._registerGroups.count > 0){
+            
+            let installation = PFInstallation.currentInstallation()
+            
+            installation.channels = [""]
+            
+            var channelList = [String]()
+            
+            for group in self._registerGroups{
+                channelList.append(group.ChannelName)
+            }
+            
+            installation.addUniqueObjectsFromArray(channelList, forKey: "channels")
+            installation.saveInBackground()
+        }
+    }
+    
+    func MoveToNextView(sender:UIViewController){
+        
+        var complete = true
+        
+        //println(self._dsnsList)
+        
+        for dsns in self._dsnsList{
+            if !dsns.1{
+                complete = false
+            }
+        }
+        
+        //等全部的DSNS訪問都回來後執行
+        if complete{
+            
+            RegisterGroup()
+            
+            Global.MyGroups = self._registerGroups
+            
+            Global.Loading.hideActivityIndicator(self.view)
+            
+            if sender == self{
+                let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as UIViewController
+                self.presentViewController(nextView, animated: true, completion: nil)
+            }
+            else{
+                Global.LastNewsViewUpdate = true
+                Global.PreviewViewUpdate = true
+                sender.navigationController?.popViewControllerAnimated(true)
+            }
+        }
+    }
+    
 }
+

@@ -20,9 +20,9 @@ public class Connector{
     var AccessPoint:String!
     var Contract:String!
     var FBToken:String!
-    private var AuthUrl:String!
-    
-    var tmpCode = ""
+    var Code:String!
+    var DSNS:String!
+    var AuthUrl:String!
     
     init(authUrl:String,accessPoint:String,contract:String){
         AuthUrl = authUrl
@@ -41,12 +41,34 @@ public class Connector{
         con.Password = Password
         con.AccessPoint = AccessPoint
         con.Contract = Contract
+        con.DSNS = DSNS
         return con
+    }
+    
+    //取得DSNS的url
+    func SetAccessPointWithCallback(callback:() -> ()){
+        HttpClient.Get(GetDoorWayURL(DSNS)){data in
+            var xml = SWXMLHash.parse(data)
+            //println(NSString(data: data, encoding: NSUTF8StringEncoding))
+            for elem in xml["Envelope"]["Body"]["DoorwayURL"]{
+                if let DoorwayURL = elem.element?.text{
+                    self.AccessPoint = DoorwayURL
+                    callback()
+                }
+            }
+        }
+    }
+    
+    private func GetDoorWayURL(dsns:String) -> String{
+        return "http://dsns.ischool.com.tw/dsns/dsns/DS.NameService.GetDoorwayURL?content=%3Ca%3E\(dsns)%3C/a%3E"
     }
     
     private func getAuthUrl(type:String) -> String {
         if type == "FB"{
             return "https://auth.ischool.com.tw/c/servicem/fbtoken.php?fbtoken=\(FBToken)&client_id=\(ClientID)&client_secret=\(ClientSecret)"
+        }
+        else if type == "Code"{
+            return "\(AuthUrl)?client_id=\(ClientID)&client_secret=\(ClientSecret)&redirect_uri=http%3A%2F%2Fblank&code=\(Code)&grant_type=authorization_code"
         }
         else{
             return "\(AuthUrl)?grant_type=password&client_id=\(ClientID)&client_secret=\(ClientSecret)&username=\(UserName)&password=\(Password)"
