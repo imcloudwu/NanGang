@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIAlertViewDelegate {
+class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate {
     
     var _DSNSDic:Dictionary<String,String>!
     var _display:[String]!
@@ -39,11 +39,22 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
         autoView.dataSource = self
         autoView.hidden = true
         
-        server.delegate = self
-        code.delegate = self
-        relationship.delegate = self
+        //server.delegate = self
+        //code.delegate = self
+        //relationship.delegate = self
+        
+        server.addTarget(self, action: "GetServerName", forControlEvents: UIControlEvents.EditingChanged)
         
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    func GetServerName(){
+        let mark = self.server.markedTextRange
+        if mark == nil && !isBusy{
+            isBusy = true
+            let serverName = self.server.text.UrlEncoding
+            newSearch(serverName!)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +63,7 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
     }
     
     // called when 'return' key pressed. return NO to ignore.
-    func textFieldShouldReturn(textField: UITextField!) -> Bool
+    func textFieldShouldReturn(textField: UITextField) -> Bool
     {
         self.view.endEditing(true)
         
@@ -63,22 +74,11 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
         return true
     }
     
-    // called when screen touch
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
         if autoView.hidden == false{
             autoView.hidden = true
         }
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool{
-        if textField == server{
-            if string != "" && !isBusy{
-                isBusy = true
-                self.search()
-            }
-        }
-        return true
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -91,7 +91,7 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
         return cell
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         autoView.hidden = true
         server.text = _display[indexPath.row]
     }
@@ -100,55 +100,87 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
         Global.LoginInstance.GetDSNSList(self)
     }
     
-    func search() {
+    func newSearch(matchName:String){
         
-        _con.AccessPoint = "http://dsns.ischool.com.tw/dsns/dsns"
-        _con.Contract = "dsns"
-        
-        _con.SendRequestWithPublic("DS.NameService.GetTop10", body: "<a>\(self.server.text)</a>"){ data in
-            //println(NSString(data: data, encoding: NSUTF8StringEncoding))
-            
-            self._DSNSDic.removeAll(keepCapacity: false)
-            
-            self._display.removeAll(keepCapacity: false)
-            
-            var xml = SWXMLHash.parse(data)
-            for app in xml["Envelope"]["Body"]["Response"]["Application"] {
-                if let dsns = app.element?.attributes["Name"]{
+            HttpClient.Get("http://dsns.1campus.net/campusman.ischool.com.tw/config.public/GetSchoolList?content=%3CRequest%3E%3CMatch%3E\(matchName)%3C/Match%3E%3CPagination%3E%3CPageSize%3E10%3C/PageSize%3E%3CStartPage%3E1%3C/StartPage%3E%3C/Pagination%3E%3C/Request%3E", callback: { (data) -> () in
+                
+                self._DSNSDic.removeAll(keepCapacity: false)
+                
+                self._display.removeAll(keepCapacity: false)
+                
+                var xml = SWXMLHash.parse(data)
+                for school in xml["Body"]["Response"]["School"] {
                     
-                    if dsns.hasPrefix("ta."){
-                        continue;
-                    }else if dsns.hasPrefix("sa."){
-                        continue;
-                    }
-                    
-                    if let cdata = app.element?.text {
-                        var temp = SWXMLHash.parse(cdata)
-                        
-                        for title in temp["StructMemo"]["Title"]{
-                            if let name = title.element?.text{
-                                self._DSNSDic[name] = dsns
-                            }
+                    if let title = school["Title"].element?.text{
+                        if let dsns = school["DSNS"].element?.text{
+                            self._DSNSDic[title] = dsns
                         }
                     }
                 }
-            }
-            
-            for dsns in self._DSNSDic{
-                self._display.append(dsns.0)
-            }
-            
-            if self._display.count > 0{
-                self.autoView.reloadData()
-                self.autoView.hidden = false
-            }
-            else{
-                self.autoView.hidden = true
-            }
-            
-            self.isBusy = false
-        }
+                
+                self._display = self._DSNSDic.keys.array
+                
+                if self._display.count > 0{
+                    self.autoView.reloadData()
+                    self.autoView.hidden = false
+                }
+                else{
+                    self.autoView.hidden = true
+                }
+                
+                self.isBusy = false
+            })
     }
+    
+//    func search(matchName:String) {
+//        
+//        _con.AccessPoint = "http://dsns.ischool.com.tw/dsns/dsns"
+//        _con.Contract = "dsns"
+//        
+//        _con.SendRequestWithPublic("DS.NameService.GetTop10", body: "<a>\(matchName)</a>"){ data in
+//            //println(NSString(data: data, encoding: NSUTF8StringEncoding))
+//            
+//            self._DSNSDic.removeAll(keepCapacity: false)
+//            
+//            self._display.removeAll(keepCapacity: false)
+//            
+//            var xml = SWXMLHash.parse(data)
+//            for app in xml["Envelope"]["Body"]["Response"]["Application"] {
+//                if let dsns = app.element?.attributes["Name"]{
+//                    
+//                    if dsns.hasPrefix("ta."){
+//                        continue;
+//                    }else if dsns.hasPrefix("sa."){
+//                        continue;
+//                    }
+//                    
+//                    if let cdata = app.element?.text {
+//                        var temp = SWXMLHash.parse(cdata)
+//                        
+//                        for title in temp["StructMemo"]["Title"]{
+//                            if let name = title.element?.text{
+//                                self._DSNSDic[name] = dsns
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            
+//            for dsns in self._DSNSDic{
+//                self._display.append(dsns.0)
+//            }
+//            
+//            if self._display.count > 0{
+//                self.autoView.reloadData()
+//                self.autoView.hidden = false
+//            }
+//            else{
+//                self.autoView.hidden = true
+//            }
+//            
+//            self.isBusy = false
+//        }
+//    }
     
     @IBAction func submit(sender: AnyObject) {
         
@@ -183,7 +215,7 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
                     con.GetSessionID()
                     
                     con.SendRequest("Join.AsParent", body: "<Request><ParentCode>\(self.code.text)</ParentCode><Relationship>\(self.relationship.text)</Relationship></Request>") { (response) -> () in
-                        var str = NSString(data: response, encoding: NSUTF8StringEncoding)
+                        //var str = NSString(data: response, encoding: NSUTF8StringEncoding)
                         //println(str)
                         
                         var xml = SWXMLHash.parse(response)
@@ -196,15 +228,17 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
                         if success{
                             let alert = UIAlertView()
                             alert.delegate = self
-                            alert.title = "系統提示"
+                            //alert.title = "系統提示"
                             alert.message = "加入成功"
                             alert.addButtonWithTitle("OK")
                             alert.show()
                         }
                         else{
+                            
+                            let errorMsg = xml["Envelope"]["Header"]["Status"]["Message"].element?.text
                             let alert = UIAlertView()
-                            alert.title = "系統提示"
-                            alert.message = "加入失敗"
+                            //alert.title = "系統提示"
+                            alert.message = "加入失敗:\(errorMsg!)"
                             alert.addButtonWithTitle("OK")
                             alert.show()
                         }
@@ -215,7 +249,7 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
                 }
                 else{
                     let alert = UIAlertView()
-                    alert.title = "呼叫伺服器錯誤"
+                    //alert.title = "呼叫伺服器錯誤"
                     alert.message = "連線異常或者伺服器名稱不正確"
                     alert.addButtonWithTitle("OK")
                     alert.show()

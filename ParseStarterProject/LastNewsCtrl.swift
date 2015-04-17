@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate {
     
     var _data = [NewsObj]()
     
@@ -22,6 +22,10 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate {
         
         self.automaticallyAdjustsScrollViewInsets = false
         self.navigationItem.title = "最新動態"
+        
+        let logoutBtn = UIBarButtonItem(title: "登出", style: UIBarButtonItemStyle.Plain, target: self, action: "AskForLogout")
+        logoutBtn.image = UIImage(named: "Exit-25.png")
+        self.navigationItem.rightBarButtonItem  = logoutBtn
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -38,12 +42,36 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         
-        if Global.Installation.badge != 0 || Global.LastNewsViewUpdate{
+        if Global.Installation.badge != 0 || Global.LastNewsViewChanged{
             Global.Installation.badge = 0
             Global.Installation.saveEventually()
-            Global.LastNewsViewUpdate = false
+            Global.LastNewsViewChanged = false
             Refresh()
         }
+    }
+    
+    func AskForLogout(){
+        let confirmAlert = UIAlertView()
+        //confirmAlert.title = "系統訊息"
+        confirmAlert.message = "確認要登出？"
+        confirmAlert.addButtonWithTitle("確認")
+        confirmAlert.addButtonWithTitle("取消")
+        confirmAlert.delegate = self
+        confirmAlert.show()
+    }
+    
+    func Logout(){
+        
+        HttpClient.Get(GetLogoutUrl("Greening")) { (data) -> () in
+            println("Greening logout")
+        }
+        
+        HttpClient.Get(GetLogoutUrl("Google")) { (data) -> () in
+            println("Google logout")
+        }
+        
+        let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("loginView") as! UIViewController
+        self.presentViewController(nextView, animated: true, completion: nil)
     }
     
     func Refresh(){
@@ -71,23 +99,25 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate {
             
             self._data.removeAll(keepCapacity: false)
             
+            let array = objects as! [PFObject]
+            
             //loop結果
-            for object in objects{
+            for object in array{
                 
-                let date:NSDate = object.createdAt
+                let date:NSDate = object.createdAt!
                 
-                println(date)
+                //println(date)
                 
                 let id = object.objectId
-                let groupName = object["group"] as String
-                let comment = object["comment"] as String
+                let groupName = object["group"] as! String
+                let comment = object["comment"] as! String
                 //將pffile轉成image
-                let file = object["preview"] as PFFile
+                let file = object["preview"] as! PFFile
                 
                 var imgData = file.getData()
                 
-                if let img = UIImage(data: imgData){
-                    self._data.append(NewsObj(ID: id, Group: groupName, Comment: comment, Image: img,Date: date))
+                if let img = UIImage(data: imgData!){
+                    self._data.append(NewsObj(ID: id!, Group: groupName, Comment: comment, Image: img,Date: date))
                 }
             }
             
@@ -102,8 +132,8 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("lastNewsCell") as LastNewsCell
-        cell.Image.image = _data[indexPath.row].Image
+        let cell = tableView.dequeueReusableCellWithIdentifier("lastNewsCell") as! LastNewsCell
+        cell.ImageView.image = _data[indexPath.row].Image
         cell.GroupName.text = "來自 \(_data[indexPath.row].Group) 群組的相片         \(_data[indexPath.row].Date.stringValue)"
         cell.Comment.text = _data[indexPath.row].Comment
         cell.Icon.hidden = _data[indexPath.row].Comment == ""
@@ -111,10 +141,17 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
-        let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Detail") as DetailViewCtrl
+        let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Detail") as! DetailViewCtrl
         nextView._SelectPicId = _data[indexPath.row].ID
         
         self.navigationController?.pushViewController(nextView, animated: true)
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        
+        if alertView.buttonTitleAtIndex(buttonIndex) == "確認"{
+            Logout()
+        }
     }
     
 }

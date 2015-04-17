@@ -20,6 +20,9 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Global.LastNewsViewChanged = true
+        Global.PreviewViewChanged = true
+        
         Global.LoginInstance = self
         
         _con = Connector(authUrl: "https://auth.ischool.com.tw/oauth/token.php", accessPoint: "https://auth.ischool.com.tw:8443/dsa/greening", contract: "user")
@@ -103,8 +106,6 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                 }
             }
             
-            Global.DSNSList = self._dsnsList
-            
             for dsns in self._dsnsList{
                 var con = self._con.Clone()
                 con.DSNS = dsns.0
@@ -146,7 +147,7 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                     let groupName = group["GroupName"].element?.text
                     let isTeacher = group["IsTeacher"].element?.text == "true" ? true : false
                     
-                    var channelName = Global.GenerateChannelString(con.DSNS, groupId: groupId)
+                    var channelName = GenerateChannelString(con.DSNS, groupId)
                     
                     var item = GroupItem(GroupId: groupId, GroupName: groupName, ChannelName: channelName, IsTeacher: isTeacher)
                     
@@ -196,17 +197,18 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
             
             RegisterGroup()
             
+            Global.DSNSList = self._dsnsList
             Global.MyGroups = self._registerGroups
             
             Global.Loading.hideActivityIndicator(self.view)
             
             if sender == self{
-                let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as UIViewController
+                let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! UIViewController
                 self.presentViewController(nextView, animated: true, completion: nil)
             }
             else{
-                Global.LastNewsViewUpdate = true
-                Global.PreviewViewUpdate = true
+                Global.LastNewsViewChanged = true
+                Global.PreviewViewChanged = true
                 sender.navigationController?.popViewControllerAnimated(true)
             }
         }

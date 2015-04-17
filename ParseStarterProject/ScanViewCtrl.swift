@@ -84,7 +84,7 @@ class ScanViewCtrl: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIAl
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!){
         
         if metadataObjects != nil && metadataObjects.count > 0 {
-            var metadataObj: AVMetadataMachineReadableCodeObject = metadataObjects[0] as AVMetadataMachineReadableCodeObject
+            var metadataObj: AVMetadataMachineReadableCodeObject = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
             
             dispatch_async(dispatch_get_main_queue()) {() -> Void in
                 
@@ -92,7 +92,7 @@ class ScanViewCtrl: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIAl
                 
                 if fullNameArr.count != 2{
                     let alert = UIAlertView()
-                    alert.title = "系統提示"
+                    //alert.title = "系統提示"
                     alert.message = "QRcode不正確"
                     alert.addButtonWithTitle("OK")
                     alert.show()
@@ -136,14 +136,14 @@ class ScanViewCtrl: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIAl
                                 if success{
                                     let alert = UIAlertView()
                                     alert.delegate = self
-                                    alert.title = "系統提示"
+                                    //alert.title = "系統提示"
                                     alert.message = "加入成功"
                                     alert.addButtonWithTitle("OK")
                                     alert.show()
                                 }
                                 else{
                                     let alert = UIAlertView()
-                                    alert.title = "系統提示"
+                                    //alert.title = "系統提示"
                                     alert.message = "加入失敗"
                                     alert.addButtonWithTitle("OK")
                                     alert.show()
@@ -152,7 +152,7 @@ class ScanViewCtrl: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIAl
                         }
                         else{
                             let alert = UIAlertView()
-                            alert.title = "呼叫伺服器錯誤"
+                            //alert.title = "呼叫伺服器錯誤"
                             alert.message = "連線異常或者伺服器名稱不正確"
                             alert.addButtonWithTitle("OK")
                             alert.show()

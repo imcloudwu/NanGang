@@ -12,6 +12,7 @@ import Parse
 class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,ELCImagePickerControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var progressBar: UIProgressView!
     
     var _data = [PhotoObj]()
     var _group:[GroupItem]!
@@ -21,6 +22,8 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        progressBar.hidden = true
         
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -66,8 +69,8 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("photoCell") as PhotoCell
-        cell.Image.image = _data[indexPath.row].Image
+        let cell = tableView.dequeueReusableCellWithIdentifier("photoCell") as! PhotoCell
+        cell.ImageView.image = _data[indexPath.row].Image
         cell.Comment.text = _data[indexPath.row].Comment == "" ? "點選增加註解" : _data[indexPath.row].Comment
         return cell
     }
@@ -76,8 +79,8 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         let inputBox = UIAlertView()
         inputBox.delegate = self
         inputBox.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        inputBox.title = "系統訊息"
-        inputBox.message = "給這張圖片一個註解吧"
+        //inputBox.title = "系統訊息"
+        inputBox.message = "編輯註解"
         inputBox.addButtonWithTitle("確認")
         inputBox.tag = indexPath.row
         inputBox.textFieldAtIndex(0)?.text = self._data[indexPath.row].Comment
@@ -106,14 +109,19 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     
     func uploadPhoto(groupIndex:Int){
         
+        let groupChannel = _group[groupIndex].ChannelName
+        let groupName = _group[groupIndex].GroupName
+        
         if self._data.count == 0{
             let alert = UIAlertView()
-            alert.title = "系統訊息"
+            //alert.title = "系統訊息"
             alert.message = "上傳清單目前是空的"
             alert.addButtonWithTitle("OK")
             alert.show()
             return
         }
+        
+        progressBar.hidden = false
         
         Global.Loading.showActivityIndicator(self.view)
         
@@ -122,55 +130,118 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         for data in self._data{
             
             var detail_file = PFFile(data: UIImageJPEGRepresentation(data.Image,0.8))
-            var preview_file = PFFile(data: UIImageJPEGRepresentation(data.Image.GetResizeImage(0.3), 0.1))
+            var preview_file = PFFile(data: UIImageJPEGRepresentation(data.Image.GetResizeImage(0.5), 0.1))
             
             var object = PFObject(className: "PhotoData")
-            object.ACL.setPublicWriteAccess(true)
+            object.ACL!.setPublicWriteAccess(true)
             object["preview"] = preview_file
             object["detail"] = detail_file
-            object["channel"] = _group[groupIndex].ChannelName
+            object["channel"] = groupChannel
             object["comment"] = data.Comment
-            object["group"] = _group[groupIndex].GroupName
+            object["group"] = groupName
             
             uploadData.append(object)
         }
         
+        var count = 0
+        var percent = 1 / Float(uploadData.count)
+        progressBar.progress = 0
+        
+        for each in uploadData{
+            
+            each.saveInBackgroundWithBlock({ (succeed, error) -> Void in
+                
+                count++
+                self.progressBar.progress = Float(count) * percent
+                
+                self._data.removeAtIndex(0)
+                self.tableView.reloadData()
+                self.navigationItem.title = "上傳照片(\(self._data.count))"
+                
+                Global.LastNewsViewChanged = true
+                Global.PreviewViewChanged = true
+                
+                if count == uploadData.count{
+                    self.progressBar.progress = 1
+                    
+                    //self._data.removeAll(keepCapacity: false)
+                    //self.tableView.reloadData()
+                    //self.navigationItem.title = "上傳照片(\(self._data.count))"
+                    
+                    Global.Loading.hideActivityIndicator(self.view)
+                    
+                    //Global.LastNewsViewChanged = true
+                    //Global.PreviewViewChanged = true
+                    
+                    let alert = UIAlertView()
+                    //alert.title = "系統訊息"
+                    alert.message = "上傳完成"
+                    alert.addButtonWithTitle("OK")
+                    alert.show()
+                    
+                    self.progressBar.hidden = true
+                    
+                    var data = [
+                        "alert":"\(groupName) 新增了 \(uploadData.count) 張照片",
+                        "badge":"Increment",
+                        "sound":"n9.caf"
+                    ];
+                    
+                    //推播訊息
+                    var pushQuery = PFInstallation.query()
+                    pushQuery?.whereKey("deviceToken", notEqualTo: "\(Global.MyDeviceToken)")
+                    pushQuery?.whereKey("channels", equalTo: groupChannel)
+                    
+                    var push = PFPush()
+                    push.setQuery(pushQuery)
+                    //push.setChannel(Global.MyGroups[buttonIndex - 1].ChannelName)
+                    push.setData(data)
+                    //push.setMessage("新照片通知")
+                    
+                    push.sendPushInBackground()
+                }
+            })
+        }
+        
+        /*
         //上傳照片
         PFObject.saveAllInBackground(uploadData) { (succeed, error) -> Void in
-            
-            self._data.removeAll(keepCapacity: false)
-            self.tableView.reloadData()
-            self.navigationItem.title = "上傳照片(\(self._data.count))"
-            
-            Global.Loading.hideActivityIndicator(self.view)
-            
-            Global.LastNewsViewUpdate = true
-            Global.PreviewViewUpdate = true
-            
-            let alert = UIAlertView()
-            alert.title = "系統訊息"
-            alert.message = "上傳完成"
-            alert.addButtonWithTitle("OK")
-            alert.show()
-            
-            var data = [
-                "alert":"woops! there's \(uploadData.count) has been uploaded",
-                "badge":"Increment",
-                "sound":"n1.caf"
-            ];
-            
-            var pushQuery = PFInstallation.query()
-            pushQuery.whereKey("deviceToken", notEqualTo: Global.MyDeviceToken)
-            pushQuery.whereKey("channels", equalTo: self._group[groupIndex].ChannelName)
-            
-            var push = PFPush()
-            push.setQuery(pushQuery)
-            //push.setChannel(Global.MyGroups[buttonIndex - 1].ChannelName)
-            push.setData(data)
-            //push.setMessage("新照片通知")
-            
-            push.sendPushInBackground()
+        
+        self._data.removeAll(keepCapacity: false)
+        self.tableView.reloadData()
+        self.navigationItem.title = "上傳照片(\(self._data.count))"
+        
+        Global.Loading.hideActivityIndicator(self.view)
+        
+        Global.LastNewsViewChanged = true
+        Global.PreviewViewChanged = true
+        
+        let alert = UIAlertView()
+        alert.title = "系統訊息"
+        alert.message = "上傳完成"
+        alert.addButtonWithTitle("OK")
+        alert.show()
+        
+        var data = [
+        "alert":"\(groupName) 新增了 \(uploadData.count) 張照片",
+        "badge":"Increment",
+        "sound":"n1.caf"
+        ];
+        
+        //推播訊息
+        var pushQuery = PFInstallation.query()
+        pushQuery!.whereKey("deviceToken", notEqualTo: Global.MyDeviceToken)
+        pushQuery!.whereKey("channels", equalTo: groupChannel)
+        
+        var push = PFPush()
+        push.setQuery(pushQuery)
+        //push.setChannel(Global.MyGroups[buttonIndex - 1].ChannelName)
+        push.setData(data)
+        //push.setMessage("新照片通知")
+        
+        push.sendPushInBackground()
         }
+        */
     }
     
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int){
@@ -212,7 +283,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     //相機使用
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
         
-        var choseImage = info[UIImagePickerControllerOriginalImage] as UIImage
+        var choseImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         //縮小一半尺寸
         var shrinkedImage = choseImage.GetResizeImage(0.5)
@@ -229,7 +300,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     func elcImagePickerController(picker:ELCImagePickerController, didFinishPickingMediaWithInfo info:[AnyObject]) -> (){
         
         for each in info{
-            var img = each[UIImagePickerControllerOriginalImage] as UIImage
+            var img = each[UIImagePickerControllerOriginalImage] as! UIImage
             //縮小一半尺寸
             //var shrinkedImage = img.GetResizeImage(0.5)
             

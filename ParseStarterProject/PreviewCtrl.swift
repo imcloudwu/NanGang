@@ -43,10 +43,10 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     
     override func viewWillAppear(animated: Bool) {
         
-        if Global.Installation.badge != 0 || Global.PreviewViewUpdate{
+        if Global.Installation.badge != 0 || Global.PreviewViewChanged{
             Global.Installation.badge = 0
             Global.Installation.saveEventually()
-            Global.PreviewViewUpdate = false
+            Global.PreviewViewChanged = false
             Refresh()
         }
     }
@@ -81,19 +81,21 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
             self._groupList.removeAll(keepCapacity: false)
             self._mappingData.removeAll(keepCapacity: false)
             
+            let array = objects as! [PFObject]
+            
             //loop結果
-            for object in objects{
+            for object in array{
                 
                 let id = object.objectId
-                let groupName = object["group"] as String
+                let groupName = object["group"] as! String
                 //將pffile轉成image
-                let file = object["preview"] as PFFile
+                let file = object["preview"] as! PFFile
                 
                 var imgData = file.getData()
                 
-                if let img = UIImage(data: imgData){
+                if let img = UIImage(data: imgData!){
                     
-                    var cimg = CustomImg(Id: id, Img: img, Group: groupName)
+                    var cimg = CustomImg(Id: id!, Img: img, Group: groupName)
                     
                     //self._data.append(cimg)
                     
@@ -111,9 +113,9 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
             self._collectionView.reloadData()
             self.refreshControl.endRefreshing()
             
-            if objects.count == 0{
+            if objects!.count == 0{
                 let alert = UIAlertView()
-                alert.title = "系統訊息"
+                //alert.title = "系統訊息"
                 alert.message = "查無資料"
                 alert.addButtonWithTitle("OK")
                 alert.show()
@@ -138,13 +140,13 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell1", forIndexPath: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell1", forIndexPath: indexPath) as! UICollectionViewCell
         //cell.layer.cornerRadius = 5
         
         let groupName = _groupList[indexPath.section]
         
         if let list:[CustomImg] = _mappingData[groupName]{
-            var imgView = cell.viewWithTag(100) as UIImageView
+            var imgView = cell.viewWithTag(100) as! UIImageView
             //imgView.image = _data[indexPath.row].Img
             imgView.image = list[indexPath.row].Img
             
@@ -167,7 +169,7 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
         
         if let list:[CustomImg] = _mappingData[groupName]{
             
-            let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Detail") as DetailViewCtrl
+            let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Detail") as! DetailViewCtrl
             nextView._SelectPicId = list[indexPath.row].Id
             
             self.navigationController?.pushViewController(nextView, animated: true)
@@ -180,7 +182,7 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
         _UICollectionReusableView = nil
         
         if kind == UICollectionElementKindSectionHeader{
-            _UICollectionReusableView = _collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as HeaderCell
+            _UICollectionReusableView = _collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! HeaderCell
             
             _UICollectionReusableView.title.text = " \(_groupList[indexPath.section])"
         }

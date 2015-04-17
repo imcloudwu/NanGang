@@ -36,7 +36,7 @@ class FooterCell: UICollectionReusableView {
 class PhotoCell: UITableViewCell {
     
     
-    @IBOutlet weak var Image: UIImageView!
+    @IBOutlet weak var ImageView: UIImageView!
     @IBOutlet weak var Comment: UILabel!
     
     override func awakeFromNib() {
@@ -62,7 +62,7 @@ class LastNewsCell: UITableViewCell {
     
     @IBOutlet weak var GroupName: UILabel!
     @IBOutlet weak var Comment: UILabel!
-    @IBOutlet weak var Image: UIImageView!
+    @IBOutlet weak var ImageView: UIImageView!
     @IBOutlet weak var Icon: UIImageView!
     
     override func awakeFromNib() {

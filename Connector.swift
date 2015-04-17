@@ -142,17 +142,17 @@ public class Connector{
         {
             if let data = tokenData as NSData?{
                 //println(tokenData)
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(tokenData!, options: nil, error: nil) as NSDictionary!
+                var jsonResult = NSJSONSerialization.JSONObjectWithData(tokenData!, options: nil, error: nil) as! NSDictionary!
                 //println(jsonResult)
                 
                 //var wrapping_accessToken = jsonResult["access_token"] as String?
                 //var wrapping_refreashToken = jsonResult["refresh_token"] as String?
                 
-                if let accessToken = jsonResult["access_token"] as String?{
+                if let accessToken = jsonResult["access_token"] as? String{
                     self.AccessToken = accessToken
                 }
                 
-                if let refreashToken = jsonResult["refresh_token"] as String?{
+                if let refreashToken = jsonResult["refresh_token"] as? String{
                     self.RefreshToken = refreashToken
                     //println(self.RefreshToken)
                 }

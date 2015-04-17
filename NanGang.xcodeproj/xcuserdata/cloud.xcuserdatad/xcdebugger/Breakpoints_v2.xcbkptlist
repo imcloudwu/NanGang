@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450699405.151342"
+            filePath = "HttpClient.swift"
+            timestampString = "450929495.754638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "MoveToNextView(_:)"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "Get(_:callback:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450699405.151342"
+            filePath = "HttpClient.swift"
+            timestampString = "450929495.754638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "GetDSNSList(_:)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "connection(_:didReceiveData:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450699405.151342"
+            filePath = "HttpClient.swift"
+            timestampString = "450929495.754638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "GetDSNSList(_:)"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "connection(_:didReceiveData:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450699405.151342"
+            filePath = "HttpClient.swift"
+            timestampString = "450929495.754638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "GetDSNSList(_:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "connectionDidFinishLoading(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +73,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450699405.151342"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450930554.198002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "GetDSNSList(_:)"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "GetServerName()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -89,45 +89,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/PreviewCtrl.swift"
-            timestampString = "450696317.870703"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/PreviewCtrl.swift"
-            timestampString = "450696317.870703"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/PreviewCtrl.swift"
-            timestampString = "450696490.234184"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450930554.198002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "121"
             endingLineNumber = "121"
-            landmarkName = "Refresh()"
+            landmarkName = "newSearch(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,13 +105,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/PreviewCtrl.swift"
-            timestampString = "450696490.234184"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450930554.198002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "Refresh()"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "newSearch(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -153,70 +121,156 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/PreviewCtrl.swift"
-            timestampString = "450696218.511561"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931057.134361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "PreviewCtrl"
-            landmarkType = "3">
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931066.174204"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931168.350118"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931179.275962"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931183.606056"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931184.558265"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931206.931752"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931231.220951"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "NanGang.PreviewCtrl.refreshControl.getter : ObjectiveC.UIRefreshControl"
+                  symbolName = "function signature specialization &lt;Arg[1] = Dead, Arg[2] = Value Promoted from InOut&gt; of NanGang.KeyinViewCtrl.(submit (NanGang.KeyinViewCtrl) -&gt; (Swift.AnyObject) -&gt; ()).(closure #2)"
                   moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/PreviewCtrl.swift"
-                  timestampString = "450696317.899957"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/KeyinViewCtrl.swift"
+                  timestampString = "450931681.933701"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "60">
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "1196">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "NanGang.PreviewCtrl.init (NanGang.PreviewCtrl.Type)(nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;ObjectiveC.NSBundle&gt;) -&gt; NanGang.PreviewCtrl"
+                  symbolName = "NanGang.KeyinViewCtrl.(submit (NanGang.KeyinViewCtrl) -&gt; (Swift.AnyObject) -&gt; ()).(closure #2).(closure #1)"
                   moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/PreviewCtrl.swift"
-                  timestampString = "450696317.900251"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/KeyinViewCtrl.swift"
+                  timestampString = "450931681.933956"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NanGang.PreviewCtrl.init (NanGang.PreviewCtrl.Type)() -&gt; NanGang.PreviewCtrl"
-                  moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/PreviewCtrl.swift"
-                  timestampString = "450696317.90058"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
                   offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NanGang.PreviewCtrl.init (NanGang.PreviewCtrl.Type)(coder : ObjectiveC.NSCoder) -&gt; NanGang.PreviewCtrl"
-                  moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/PreviewCtrl.swift"
-                  timestampString = "450696317.900855"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "24">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -227,13 +281,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Connector.swift"
-            timestampString = "450698813.918197"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931241.111437"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "GetAccessToken(_:)"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "submit(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -243,13 +297,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Connector.swift"
-            timestampString = "450698830.942866"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931737.76722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "GetAccessToken(_:)"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "submit(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -259,13 +313,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "UploadCtrl.swift"
-            timestampString = "450699360.498438"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931743.649239"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "submit(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/KeyinViewCtrl.swift"
+            timestampString = "450931975.528082"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "submit(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -276,12 +346,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450699486.932093"
+            timestampString = "450956392.792562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "GetDSNSList(_:)"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "RegisterGroup()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/LoginViewCtrl.swift"
+            timestampString = "450956470.664492"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "GetMyGroup(_:complete:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/LoginViewCtrl.swift"
+            timestampString = "450956508.378595"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "GetMyGroup(_:complete:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/DetailViewCtrl.swift"
+            timestampString = "450961214.970051"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParseStarterProject/DetailViewCtrl.swift"
+            timestampString = "450961214.970051"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -291,186 +425,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/ScanViewCtrl.swift"
-            timestampString = "450699504.800031"
+            filePath = "ParseStarterProject/DetailViewCtrl.swift"
+            timestampString = "450961214.970051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "alertView(_:clickedButtonAtIndex:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450700388.106364"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
-            landmarkName = "MoveToNextView(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450700056.52562"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
-            landmarkName = "MoveToNextView(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/LoginViewCtrl.swift"
-            timestampString = "450700388.106364"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "MoveToNextView(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/ScanViewCtrl.swift"
-            timestampString = "450701803.151082"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "startReading()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/ScanViewCtrl.swift"
-            timestampString = "450701806.229471"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "stopReading()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/ScanViewCtrl.swift"
-            timestampString = "450701811.627871"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "captureOutput(_:didOutputMetadataObjects:fromConnection:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NanGang.ScanViewCtrl.captureOutput (NanGang.ScanViewCtrl)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureOutput&gt;, didOutputMetadataObjects : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;, fromConnection : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureConnection&gt;) -&gt; ()"
-                  moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/ScanViewCtrl.swift"
-                  timestampString = "450701819.21835"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86"
-                  offsetFromSymbolStart = "28">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NanGang.ScanViewCtrl.captureOutput (NanGang.ScanViewCtrl)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureOutput&gt;, didOutputMetadataObjects : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;, fromConnection : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureConnection&gt;) -&gt; ()"
-                  moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/ScanViewCtrl.swift"
-                  timestampString = "450701819.218546"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86"
-                  offsetFromSymbolStart = "804">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParseStarterProject/ScanViewCtrl.swift"
-            timestampString = "450701812.339076"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "captureOutput(_:didOutputMetadataObjects:fromConnection:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NanGang.ScanViewCtrl.captureOutput (NanGang.ScanViewCtrl)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureOutput&gt;, didOutputMetadataObjects : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;, fromConnection : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureConnection&gt;) -&gt; ()"
-                  moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/ScanViewCtrl.swift"
-                  timestampString = "450701819.219017"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "880">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NanGang.ScanViewCtrl.(captureOutput (NanGang.ScanViewCtrl) -&gt; (Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureOutput&gt;, didOutputMetadataObjects : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;, fromConnection : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureConnection&gt;) -&gt; ()).(closure #1) with unmangled suffix &quot;_promote0&quot;"
-                  moduleName = "NanGang"
-                  urlString = "file:///Users/cloud/Desktop/NanGang/ParseStarterProject/ScanViewCtrl.swift"
-                  timestampString = "450701819.21919"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

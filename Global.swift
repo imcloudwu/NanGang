@@ -21,12 +21,8 @@ struct Global {
     static var MyDeviceToken:String!
     
     static var Installation = PFInstallation.currentInstallation()
-    static var LastNewsViewUpdate = true
-    static var PreviewViewUpdate = true
-    
-    static func GenerateChannelString(dsns:String,groupId:String!) -> String{
-        return "channel_\(dsns.sha1())_\(groupId)"
-    }
+    static var LastNewsViewChanged = true
+    static var PreviewViewChanged = true
     
     static func GetGroupItem(name:String) -> GroupItem?{
         
@@ -63,8 +59,21 @@ struct Global {
     }
 }
 
+func GenerateChannelString(dsns:String,groupId:String!) -> String{
+    return "channel_\(dsns.sha1())_\(groupId)"
+}
+
 func GetDoorWayURL(dsns:String) -> String{
     return "http://dsns.ischool.com.tw/dsns/dsns/DS.NameService.GetDoorwayURL?content=%3Ca%3E\(dsns)%3C/a%3E"
+}
+
+func GetLogoutUrl(type:String) -> String{
+    
+    if type == "Google"{
+        return "https://accounts.google.com/Logout"
+    }else{
+        return "https://auth.ischool.com.tw/logout.php"
+    }
 }
 
 //回傳一張縮放後的圖片
@@ -106,7 +115,7 @@ extension String {
         for byte in digest {
             output.appendFormat("%02x", byte)
         }
-        return output
+        return output as String
     }
 }
 
@@ -114,11 +123,15 @@ extension String {
     public var dataValue: NSData {
         return dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
     }
+    
+    public var UrlEncoding: String?{
+        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+    }
 }
 
 extension NSData {
     public var stringValue: String {
-        return NSString(data: self, encoding: NSUTF8StringEncoding)!
+        return NSString(data: self, encoding: NSUTF8StringEncoding)! as String
     }
 }
 
