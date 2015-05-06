@@ -50,6 +50,15 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
         
         //var target = "https://auth.ischool.com.tw/logout.php?next=oauth%2Fauthorize.php%3Fclient_id%3D8e306edeffab96c8bdc6c8635cd54b9e%26response_type%3Dcode%26state%3Dredirect_uri%253A%252F%26redirect_uri%3Dhttp%3A%2F%2Fblank%26lang%3Dzh-tw%26scope%3DUser.Mail%2CUser.BasicInfo"
         
+        if let refreshToken = Keychain.load("refreshToken")?.stringValue{
+            Auth(ConnectType.RefreshToken, value: refreshToken)
+        }
+        else{
+            showLoginView()
+        }
+    }
+    
+    func showLoginView(){
         //載入登入頁面
         var urlobj = NSURL(string: target)
         var request = NSURLRequest(URL: urlobj!)
@@ -69,13 +78,6 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
         else{
             self.navigationItem.leftBarButtonItem?.enabled = false
         }
-        
-//        if webView.request?.URL?.absoluteString == self.target{
-//            self.navigationItem.leftBarButtonItem?.enabled = false
-//        }
-//        else{
-//           self.navigationItem.leftBarButtonItem?.enabled = true
-//        }
     }
     
     func GoBack(){
@@ -97,26 +99,44 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                     code.removeRange(range)
                     
                     //println(code)
-                    Auth(code)
+                    Auth(ConnectType.Code,value: code)
                 }
             }
         }
     }
     
-    func Auth(code:String){
+    func Auth(type:ConnectType,value:String){
         
         Global.Loading.showActivityIndicator(self.view)
         
-        _con.Code = code
-        _con.GetAccessToken("Code")
+        if type == ConnectType.Code{
+            _con.Code = value
+        }
+        else if type == ConnectType.RefreshToken{
+            _con.RefreshToken = value
+        }
+        
+        if !_con.GetAccessToken(type){
+            showLoginView()
+            Global.Loading.hideActivityIndicator(self.view)
+            return
+        }
+        
         _con.GetSessionID()
         
         Global.connector = _con
         
+        Keychain.save("refreshToken", data: _con.RefreshToken.dataValue)
+        
         GetDSNSList(self)
+            
+            //        _con.GetAccessToken("Code")
+            //        _con.GetSessionID()
     }
     
     func GetDSNSList(sender:UIViewController){
+        
+        Global.Loading.showActivityIndicator(sender.view)
         
         //清空DSNS清單
         _dsnsList.removeAll(keepCapacity: false)
@@ -275,7 +295,7 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                 Global.DSNSList = self._dsnsList
                 Global.MyGroups = self._registerGroups
                 
-                Global.Loading.hideActivityIndicator(self.view)
+                Global.Loading.hideActivityIndicator(sender.view)
                 
                 if sender == self{
                     let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! UIViewController

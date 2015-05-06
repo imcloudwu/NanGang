@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum ConnectType: Int {
+    case Facebook,Code,RefreshToken
+}
+
 public class Connector{
     
     var AccessToken:String!
@@ -63,12 +67,15 @@ public class Connector{
         return "http://dsns.ischool.com.tw/dsns/dsns/DS.NameService.GetDoorwayURL?content=%3Ca%3E\(dsns)%3C/a%3E"
     }
     
-    private func getAuthUrl(type:String) -> String {
-        if type == "FB"{
+    private func getAuthUrl(type:ConnectType) -> String {
+        if type == ConnectType.Facebook {
             return "https://auth.ischool.com.tw/c/servicem/fbtoken.php?fbtoken=\(FBToken)&client_id=\(ClientID)&client_secret=\(ClientSecret)"
         }
-        else if type == "Code"{
+        else if type == ConnectType.Code {
             return "\(AuthUrl)?client_id=\(ClientID)&client_secret=\(ClientSecret)&redirect_uri=http%3A%2F%2Fblank&code=\(Code)&grant_type=authorization_code"
+        }
+        else if type == ConnectType.RefreshToken {
+            return "\(AuthUrl)?client_id=\(ClientID)&client_secret=\(ClientSecret)&redirect_uri=http%3A%2F%2Fblank&code=\(Code)&refresh_token=\(RefreshToken)&grant_type=refresh_token"
         }
         else{
             return "\(AuthUrl)?grant_type=password&client_id=\(ClientID)&client_secret=\(ClientSecret)&username=\(UserName)&password=\(Password)"
@@ -104,7 +111,8 @@ public class Connector{
         })
     }
     
-    func IsValidated(type:String) -> Bool {
+    /*
+    func IsValidated(type:ConnectType) -> Bool {
         GetAccessToken(type)
         GetSessionID()
         
@@ -117,8 +125,9 @@ public class Connector{
             return true
         }
     }
+*/
     
-    public func GetAccessToken(type:String){
+    public func GetAccessToken(type:ConnectType) -> Bool {
         var response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil
         var error: NSErrorPointer = nil
         
@@ -137,11 +146,12 @@ public class Connector{
         {
             // You can handle error response here
             println("Get AccessToken error: \(error)")
+            return false
         }
         else
         {
             if let data = tokenData as NSData?{
-                //println(tokenData)
+                //println(NSString(data: data, encoding: NSUTF8StringEncoding))
                 var jsonResult = NSJSONSerialization.JSONObjectWithData(tokenData!, options: nil, error: nil) as! NSDictionary!
                 //println(jsonResult)
                 
@@ -158,11 +168,19 @@ public class Connector{
                     //println(self.RefreshToken)
                 }
             }
+            else{
+                return false
+            }
         }
+        
+        return true
         
     }
     
     public func GetSessionID() {
+        
+        self.SessionID = nil
+        
         var response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil
         var error: NSErrorPointer = nil
         

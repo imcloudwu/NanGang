@@ -77,6 +77,8 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
             println("Google logout")
         }
         
+        Keychain.delete("refreshToken")
+        
         let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("loginView") as! UIViewController
         self.presentViewController(nextView, animated: true, completion: nil)
     }
