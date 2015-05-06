@@ -150,6 +150,7 @@ public class Connector{
                 
                 if let accessToken = jsonResult["access_token"] as? String{
                     self.AccessToken = accessToken
+                    //println(self.AccessToken)
                 }
                 
                 if let refreashToken = jsonResult["refresh_token"] as? String{
@@ -182,7 +183,7 @@ public class Connector{
         }
         else{
             if let data = sessionData as NSData?{
-                //println(data)
+                //println(NSString(data: data, encoding: NSUTF8StringEncoding))
                 var xml = SWXMLHash.parse(data)
                 //var wrapping_sessionid = xml["Envelope"]["Body"]["SessionID"].element?.text
                 //println(xml)

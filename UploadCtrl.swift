@@ -133,7 +133,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
             var preview_file = PFFile(data: UIImageJPEGRepresentation(data.Image.GetResizeImage(0.5), 0.1))
             
             var object = PFObject(className: "PhotoData")
-            object.ACL!.setPublicWriteAccess(true)
+            //object.ACL!.setPublicWriteAccess(true)
             object["preview"] = preview_file
             object["detail"] = detail_file
             object["channel"] = groupChannel
@@ -161,6 +161,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
                 Global.LastNewsViewChanged = true
                 Global.PreviewViewChanged = true
                 
+                //傳到最後一個完成後執行
                 if count == uploadData.count{
                     self.progressBar.progress = 1
                     
@@ -188,12 +189,31 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
                     ];
                     
                     //推播訊息
-                    var pushQuery = PFInstallation.query()
-                    pushQuery?.whereKey("deviceToken", notEqualTo: "\(Global.MyDeviceToken)")
-                    pushQuery?.whereKey("channels", equalTo: groupChannel)
+                    //var pushQuery = PFInstallation.query()
+                    //pushQuery?.whereKey("deviceToken", notEqualTo: "\(Global.MyDeviceToken)")
+                    //pushQuery?.whereKey("channels", equalTo: groupChannel)
+                    
+                    var userQuery = PFUser.query()!
+                    userQuery.whereKey("channels", containedIn: [groupChannel])
+                    
+                    //let users = userQuery?.findObjects()
+                    
+//                    var uuids = [String]()
+//                    
+//                    for user in users!{
+//                        let uuid = user["username"] as? String
+//                        if uuid != nil && uuid != Global.MyUUID{
+//                            uuids.append(GenerateUUIDChannel(uuid!))
+//                        }
+//                    }
+                    
+                    var deviceQuery = PFInstallation.query()!
+                    //pushQuery?.whereKey("channels", containedIn: uuids)
+                    deviceQuery.whereKey("user", matchesQuery: userQuery)
+                    deviceQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
                     
                     var push = PFPush()
-                    push.setQuery(pushQuery)
+                    push.setQuery(deviceQuery)
                     //push.setChannel(Global.MyGroups[buttonIndex - 1].ChannelName)
                     push.setData(data)
                     //push.setMessage("新照片通知")

@@ -49,6 +49,11 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
             Global.PreviewViewChanged = false
             Refresh()
         }
+        
+        Global.SetCallback { () -> () in
+            Global.LastNewsViewChanged = true
+            self.Refresh()
+        }
     }
     
     override func didReceiveMemoryWarning() {

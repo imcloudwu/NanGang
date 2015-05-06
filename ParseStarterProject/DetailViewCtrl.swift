@@ -50,6 +50,8 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
             return
         }
         
+        //有刪除權限
+        let canDelete = pfObject?.ACL?.getWriteAccessForUser(PFUser.currentUser()!)
         let file = pfObject?["detail"] as! PFFile
         let picComment = pfObject?["comment"] as! String
         let groupName = pfObject?["group"] as! String
@@ -63,8 +65,8 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
                 saveBtn.image = UIImage(named: "Download From Cloud-25.png")
                 self.navigationItem.rightBarButtonItems = [saveBtn]
                 
-                //老師身份新增刪除按鈕
-                if Global.GetGroupItem(groupName)?.IsTeacher == true {
+                //有權限者新增刪除按鈕
+                if canDelete == true {
                     let deleteBtn = UIBarButtonItem(title: "刪除", style: UIBarButtonItemStyle.Plain, target: self, action: "AskForDelete")
                     deleteBtn.image = UIImage(named: "Trash-25.png")
                     self.navigationItem.rightBarButtonItems?.append(deleteBtn)
@@ -108,6 +110,7 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         //var pfObject = query.getFirstObject()
         
         query.getObjectInBackgroundWithId(_SelectPicId) { (PFObject, NSError) -> Void in
+            
             PFObject!.deleteInBackgroundWithBlock({ (succeed, error) -> Void in
                 if succeed{
                     

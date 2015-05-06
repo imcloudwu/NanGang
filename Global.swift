@@ -11,6 +11,7 @@ import UIKit
 import Parse
 
 struct Global {
+    //static var MyUUID:String!
     static var connector:Connector!
     static var Loading = LoadingIndicator()
     static var LoginInstance:LoginViewCtrl!
@@ -23,6 +24,18 @@ struct Global {
     static var Installation = PFInstallation.currentInstallation()
     static var LastNewsViewChanged = true
     static var PreviewViewChanged = true
+    
+    private static var callback:(() -> ())!
+    
+    static func SetCallback(set:() -> ()){
+        callback = set
+    }
+    
+    static func Callback(){
+        if callback != nil{
+            callback()
+        }
+    }
     
     static func GetGroupItem(name:String) -> GroupItem?{
         
@@ -57,6 +70,10 @@ struct Global {
         
         return false
     }
+}
+
+func GenerateUUIDChannel(uuid:String) -> String{
+    return "uuid_\(uuid.sha1())"
 }
 
 func GenerateChannelString(dsns:String,groupId:String!) -> String{
@@ -120,6 +137,7 @@ extension String {
 }
 
 extension String {
+    
     public var dataValue: NSData {
         return dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
     }

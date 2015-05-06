@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // PFFacebookUtils.initializeFacebook()
         // ****************************************************************************
 
-        PFUser.enableAutomaticUser()
+        //PFUser.enableAutomaticUser()
 
         let defaultACL = PFACL();
 
@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 println("ParseStarterProject failed to subscribe to push notifications on the broadcast channel with error = %@.", error)
             }
-        }
+        } 
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -106,12 +106,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    /*
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PFPush.handlePush(userInfo)
+        
         if application.applicationState == UIApplicationState.Inactive {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
+        
+        //App開啟狀態若收到推播進行畫面更新
+        if application.applicationState == UIApplicationState.Active {
+            Global.Callback()
+        }
     }
+*/
     
     func applicationDidBecomeActive(application: UIApplication){
 //        let installation = PFInstallation.currentInstallation()
@@ -125,14 +133,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ///////////////////////////////////////////////////////////
     // Uncomment this method if you want to use Push Notifications with Background App Refresh
     ///////////////////////////////////////////////////////////
-//     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-//         if application.applicationState == UIApplicationState.Inactive {
-//             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
-//            
-//         }
-//        
-//            println(userInfo)
-//     }
+     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        //這個func可以顯示推播訊息
+        PFPush.handlePush(userInfo)
+        
+        println(application.applicationState == UIApplicationState.Inactive)
+        
+         if application.applicationState == UIApplicationState.Inactive {
+             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+         }
+        
+        //App開啟狀態若收到推播進行畫面更新
+        if application.applicationState == UIApplicationState.Active {
+            Global.Callback()
+        }
+     }
 
     //--------------------------------------
     // MARK: Facebook SDK Integration

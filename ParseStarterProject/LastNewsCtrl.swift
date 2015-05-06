@@ -48,9 +48,15 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
             Global.LastNewsViewChanged = false
             Refresh()
         }
+        
+        Global.SetCallback { () -> () in
+            Global.PreviewViewChanged = true
+            self.Refresh()
+        }
     }
     
     func AskForLogout(){
+        
         let confirmAlert = UIAlertView()
         //confirmAlert.title = "系統訊息"
         confirmAlert.message = "確認要登出？"
@@ -58,6 +64,7 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
         confirmAlert.addButtonWithTitle("取消")
         confirmAlert.delegate = self
         confirmAlert.show()
+        
     }
     
     func Logout(){
