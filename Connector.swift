@@ -93,9 +93,9 @@ public class Connector{
         }
         else{
             
-            var body = "<Envelope><Header><TargetContract>\(self.Contract)</TargetContract><TargetService>\(service)</TargetService><SecurityToken Type='Session'><SessionID>\(self.SessionID)</SessionID></SecurityToken></Header><Body>\(body)</Body></Envelope>"
+            var httpBody = "<Envelope><Header><TargetContract>\(self.Contract)</TargetContract><TargetService>\(service)</TargetService><SecurityToken Type='Session'><SessionID>\(self.SessionID)</SessionID></SecurityToken></Header><Body>\(body)</Body></Envelope>"
             
-            HttpClient.POST(self.AccessPoint, body: body, callback: { data in
+            HttpClient.POST(self.AccessPoint, body: httpBody, callback: { data in
                 function(response: data)
             })
         }
@@ -104,28 +104,28 @@ public class Connector{
     func SendRequestWithPublic(service:String,body:String,function:(response:NSData) -> ()){
         
         //<TargetContract>\(self.Contract)</TargetContract>
-        var body = "<Envelope><Header><SecurityToken Type='Public'/><TargetService>\(service)</TargetService></Header><Body>\(body)</Body></Envelope>"
+        var httpBody = "<Envelope><Header><SecurityToken Type='Public'/><TargetService>\(service)</TargetService></Header><Body>\(body)</Body></Envelope>"
         
-        HttpClient.POST(self.AccessPoint, body: body, callback: { data in
+        HttpClient.POST(self.AccessPoint, body: httpBody, callback: { data in
             function(response: data)
         })
     }
     
     /*
     func IsValidated(type:ConnectType) -> Bool {
-        GetAccessToken(type)
-        GetSessionID()
-        
-        if self.SessionID == nil{
-            //println("SessionID is nil")
-            return false
-        }
-        else{
-            //println("SessionID is not nil")
-            return true
-        }
+    GetAccessToken(type)
+    GetSessionID()
+    
+    if self.SessionID == nil{
+    //println("SessionID is nil")
+    return false
     }
-*/
+    else{
+    //println("SessionID is not nil")
+    return true
+    }
+    }
+    */
     
     public func GetAccessToken(type:ConnectType) -> Bool {
         var response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil
@@ -167,6 +167,10 @@ public class Connector{
                     self.RefreshToken = refreashToken
                     //println(self.RefreshToken)
                 }
+                
+                if (self.AccessToken == nil || self.RefreshToken == nil){
+                    return false
+                }
             }
             else{
                 return false
@@ -174,10 +178,9 @@ public class Connector{
         }
         
         return true
-        
     }
     
-    public func GetSessionID() {
+    public func GetSessionID() -> Bool {
         
         self.SessionID = nil
         
@@ -198,6 +201,7 @@ public class Connector{
         if error != nil{
             // You can handle error response here
             println("Get SessionID error: \(error)")
+            return false
         }
         else{
             if let data = sessionData as NSData?{
@@ -209,8 +213,16 @@ public class Connector{
                     self.SessionID = sessionid
                     //println("sessionid: \(sessionid)")
                 }
+                
+                if self.SessionID == nil{
+                    return false
+                }
+            }
+            else{
+                return false
             }
         }
         
+        return true
     }
 }

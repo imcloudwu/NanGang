@@ -56,6 +56,7 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
         else{
             showLoginView()
         }
+        
     }
     
     func showLoginView(){
@@ -129,9 +130,9 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
         Keychain.save("refreshToken", data: _con.RefreshToken.dataValue)
         
         GetDSNSList(self)
-            
-            //        _con.GetAccessToken("Code")
-            //        _con.GetSessionID()
+        
+        //        _con.GetAccessToken("Code")
+        //        _con.GetSessionID()
     }
     
     func GetDSNSList(sender:UIViewController){
@@ -245,6 +246,9 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                         
                         //成功登入後已不為nil
                         let currentUser = PFUser.currentUser()
+                        //user可能會換email,所以每次登入都覆寫email
+                        currentUser?.email = email
+                        
                         //準備訂閱的頻道
                         var channels = [String]()
                         
@@ -300,6 +304,7 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                 if sender == self{
                     let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! UIViewController
                     self.presentViewController(nextView, animated: true, completion: nil)
+                    
                 }
                 else{
                     Global.LastNewsViewChanged = true

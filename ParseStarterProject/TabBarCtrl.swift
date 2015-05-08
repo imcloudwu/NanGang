@@ -12,6 +12,9 @@ class TabBarCtrl: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var item = self.viewControllers![4] as! UIViewController
+        Global.IntegrateMain = item
+        
         //如果沒有一個群組屬於老師身份,將上傳照片的功能拿掉
         let indexToRemove = 2
         if indexToRemove < self.viewControllers?.count && Global.TeacherGroups().count == 0{

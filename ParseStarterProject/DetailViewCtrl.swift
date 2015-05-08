@@ -61,13 +61,13 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
                 self.imageView.image = img
                 self.comment.text = picComment
                 
-                let saveBtn = UIBarButtonItem(title: "儲存", style: UIBarButtonItemStyle.Plain, target: self, action: "SaveImg")
+                let saveBtn = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: "SaveImg")
                 saveBtn.image = UIImage(named: "Download From Cloud-25.png")
                 self.navigationItem.rightBarButtonItems = [saveBtn]
                 
                 //有權限者新增刪除按鈕
                 if canDelete == true {
-                    let deleteBtn = UIBarButtonItem(title: "刪除", style: UIBarButtonItemStyle.Plain, target: self, action: "AskForDelete")
+                    let deleteBtn = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: "AskForDelete")
                     deleteBtn.image = UIImage(named: "Trash-25.png")
                     self.navigationItem.rightBarButtonItems?.append(deleteBtn)
                 }

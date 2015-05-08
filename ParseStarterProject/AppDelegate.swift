@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 println("ParseStarterProject failed to subscribe to push notifications on the broadcast channel with error = %@.", error)
             }
-        } 
+        }
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -119,9 +119,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Global.Callback()
         }
     }
-*/
+    */
+
     
     func applicationDidBecomeActive(application: UIApplication){
+        //app 被喚醒時確保是有效的連線
+        if let con = Global.connector{
+            if !con.GetSessionID(){
+                con.GetAccessToken(ConnectType.RefreshToken)
+                con.GetSessionID()
+            }
+        }
 //        let installation = PFInstallation.currentInstallation()
 //        
 //        if installation.badge != 0{
@@ -137,8 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //這個func可以顯示推播訊息
         PFPush.handlePush(userInfo)
-        
-        println(application.applicationState == UIApplicationState.Inactive)
         
          if application.applicationState == UIApplicationState.Inactive {
              PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)

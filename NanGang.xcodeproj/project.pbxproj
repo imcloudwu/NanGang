@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6100CE8E1AFC96A100C9254E /* Skydrive-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6100CE8D1AFC96A100C9254E /* Skydrive-32.png */; };
+		6100CE901AFCBE1500C9254E /* IntegrateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */; };
+		6100CE921AFCC12700C9254E /* Books-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6100CE911AFCC12700C9254E /* Books-100.png */; };
+		6100CE941AFCC81100C9254E /* Health-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6100CE931AFCC81100C9254E /* Health-100.png */; };
 		61056FAA1AD7C46C0097977A /* Comments-26a.png in Resources */ = {isa = PBXBuildFile; fileRef = 61056FA91AD7C46C0097977A /* Comments-26a.png */; };
 		61157AD61AD616A50074C6B6 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61157AC01AD616A50074C6B6 /* ELCAlbumPickerController.m */; };
 		61157AD71AD616A50074C6B6 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 61157AC21AD616A50074C6B6 /* ELCAsset.m */; };
@@ -34,6 +38,7 @@
 		613BC6B21ADCB19D005B783F /* TabBarCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613BC6B11ADCB19D005B783F /* TabBarCtrl.swift */; };
 		61456D3D1ACD37E1008B976A /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456D3C1ACD37E1008B976A /* CustomCell.swift */; };
 		614C037F1ADFB37F000E6B36 /* Download From Cloud-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 614C037D1ADFB37F000E6B36 /* Download From Cloud-25.png */; };
+		618256DA1AFB7B4B00EB6847 /* IntegrateViewCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618256D91AFB7B4B00EB6847 /* IntegrateViewCtrl.swift */; };
 		61BFE9EB1AC3D67B00F422AB /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BFE9EA1AC3D67B00F422AB /* HttpClient.swift */; };
 		61BFE9ED1AC3D69F00F422AB /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BFE9EC1AC3D69F00F422AB /* Connector.swift */; };
 		61BFE9EF1AC3D6D600F422AB /* SWXMLHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BFE9EE1AC3D6D600F422AB /* SWXMLHash.swift */; };
@@ -74,6 +79,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6100CE8D1AFC96A100C9254E /* Skydrive-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Skydrive-32.png"; sourceTree = "<group>"; };
+		6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrateDetailView.swift; sourceTree = "<group>"; };
+		6100CE911AFCC12700C9254E /* Books-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Books-100.png"; sourceTree = "<group>"; };
+		6100CE931AFCC81100C9254E /* Health-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Health-100.png"; sourceTree = "<group>"; };
 		61056FA91AD7C46C0097977A /* Comments-26a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Comments-26a.png"; sourceTree = "<group>"; };
 		61157ABF1AD616A50074C6B6 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
 		61157AC01AD616A50074C6B6 /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
@@ -111,6 +120,7 @@
 		613BC6B11ADCB19D005B783F /* TabBarCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarCtrl.swift; sourceTree = "<group>"; };
 		61456D3C1ACD37E1008B976A /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		614C037D1ADFB37F000E6B36 /* Download From Cloud-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Download From Cloud-25.png"; path = "icons/Download From Cloud-25.png"; sourceTree = "<group>"; };
+		618256D91AFB7B4B00EB6847 /* IntegrateViewCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrateViewCtrl.swift; sourceTree = "<group>"; };
 		61BFE9EA1AC3D67B00F422AB /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		61BFE9EC1AC3D69F00F422AB /* Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
 		61BFE9EE1AC3D6D600F422AB /* SWXMLHash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWXMLHash.swift; sourceTree = "<group>"; };
@@ -223,6 +233,9 @@
 		611DA8441AC8E1B5008F8A1C /* Icon */ = {
 			isa = PBXGroup;
 			children = (
+				6100CE931AFCC81100C9254E /* Health-100.png */,
+				6100CE911AFCC12700C9254E /* Books-100.png */,
+				6100CE8D1AFC96A100C9254E /* Skydrive-32.png */,
 				61E9AABB1AE0D5CF00288FBD /* Exit-25.png */,
 				61E9AABC1AE0D5CF00288FBD /* Trash-25.png */,
 				61E9AAA91AE0D3B200288FBD /* icon2-29.png */,
@@ -294,6 +307,8 @@
 				613BC6B11ADCB19D005B783F /* TabBarCtrl.swift */,
 				61C1245D1ADCEB2A0067ABDA /* ScanViewCtrl.swift */,
 				61157AF21AD65EE80074C6B6 /* UploadCtrl.swift */,
+				618256D91AFB7B4B00EB6847 /* IntegrateViewCtrl.swift */,
+				6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */,
 				61157AF41AD65F200074C6B6 /* EmptyCtrl.swift */,
 				81BA814E1A49DA1800E65899 /* Main.storyboard */,
 				81BA81511A49DA1800E65899 /* Images.xcassets */,
@@ -373,7 +388,7 @@
 						DevelopmentTeam = 3E2S2GG75G;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -414,6 +429,7 @@
 				61E9AAC01AE11AF800288FBD /* n9.caf in Resources */,
 				61157AE11AD616A50074C6B6 /* Overlay@2x.png in Resources */,
 				61E9AAB91AE0D3B200288FBD /* icon2-152.png in Resources */,
+				6100CE921AFCC12700C9254E /* Books-100.png in Resources */,
 				61E9AABE1AE0D5CF00288FBD /* Trash-25.png in Resources */,
 				61E9AABA1AE0D3B200288FBD /* icon2-180.png in Resources */,
 				81BA81521A49DA1800E65899 /* Images.xcassets in Resources */,
@@ -422,9 +438,11 @@
 				61157AED1AD658460074C6B6 /* New-32.png in Resources */,
 				61E9AABD1AE0D5CF00288FBD /* Exit-25.png in Resources */,
 				61157AF11AD658BC0074C6B6 /* Stack Of Photos Filled-32.png in Resources */,
+				6100CE941AFCC81100C9254E /* Health-100.png in Resources */,
 				61E9AAB71AE0D3B200288FBD /* icon2-87.png in Resources */,
 				61C1245B1ADCE5EC0067ABDA /* Keyboard-100.png in Resources */,
 				61E9AAB31AE0D3B200288FBD /* icon2-40.png in Resources */,
+				6100CE8E1AFC96A100C9254E /* Skydrive-32.png in Resources */,
 				61157ADF1AD616A50074C6B6 /* ELCAssetTablePicker.xib in Resources */,
 				61157AF01AD658BC0074C6B6 /* Photo Filled-32.png in Resources */,
 				61E9AAB21AE0D3B200288FBD /* icon2-29.png in Resources */,
@@ -459,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61157ADA1AD616A50074C6B6 /* ELCConsole.m in Sources */,
+				6100CE901AFCBE1500C9254E /* IntegrateDetailView.swift in Sources */,
 				61456D3D1ACD37E1008B976A /* CustomCell.swift in Sources */,
 				613BC6B21ADCB19D005B783F /* TabBarCtrl.swift in Sources */,
 				611D9B611ADB574A00456B7F /* LoginViewCtrl.swift in Sources */,
@@ -470,6 +489,7 @@
 				61157ADC1AD616A50074C6B6 /* ELCOverlayImageView.m in Sources */,
 				61351F721AD76B20009705DB /* LastNewsCtrl.swift in Sources */,
 				61C124541ADCE0EF0067ABDA /* AddChildViewCtrl.swift in Sources */,
+				618256DA1AFB7B4B00EB6847 /* IntegrateViewCtrl.swift in Sources */,
 				61157AF51AD65F200074C6B6 /* EmptyCtrl.swift in Sources */,
 				61BFE9F11AC3DB3A00F422AB /* Global.swift in Sources */,
 				61157AD61AD616A50074C6B6 /* ELCAlbumPickerController.m in Sources */,

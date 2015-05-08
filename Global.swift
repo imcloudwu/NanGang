@@ -12,6 +12,7 @@ import Parse
 
 struct Global {
     //static var MyUUID:String!
+    static var IntegrateMain:UIViewController!
     static var connector:Connector!
     static var Loading = LoadingIndicator()
     static var LoginInstance:LoginViewCtrl!

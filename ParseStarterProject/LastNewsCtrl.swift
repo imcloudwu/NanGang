@@ -23,7 +23,7 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
         self.automaticallyAdjustsScrollViewInsets = false
         self.navigationItem.title = "最新動態"
         
-        let logoutBtn = UIBarButtonItem(title: "登出", style: UIBarButtonItemStyle.Plain, target: self, action: "AskForLogout")
+        let logoutBtn = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: "AskForLogout")
         logoutBtn.image = UIImage(named: "Exit-25.png")
         self.navigationItem.rightBarButtonItem  = logoutBtn
         
