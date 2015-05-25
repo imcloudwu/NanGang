@@ -17,11 +17,15 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     var _data = [PhotoObj]()
     var _group:[GroupItem]!
     
+    var _faces = [UIImage]()
+    
     var sourceActionSheet:UIActionSheet!
     var groupActionSheet:UIActionSheet!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        KairosSDK.initWithAppId("554468cd", appKey: "8b1523aad38b4cd8fe13c18bd469ea64")
         
         progressBar.hidden = true
         
@@ -32,8 +36,10 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         tableView.dataSource = self
         tableView.delegate = self
         
-        let selectBtn = UIBarButtonItem(title: "選取相片", style: UIBarButtonItemStyle.Bordered, target: self, action: "selectBtnClick")
-        let uploadBtn = UIBarButtonItem(title: "開始上傳", style: UIBarButtonItemStyle.Plain, target: self, action: "uploadBtnClick")
+        let selectBtn = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: "selectBtnClick")
+        selectBtn.image = UIImage(named: "Add File-25.png")
+        let uploadBtn = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: "uploadBtnClick")
+        uploadBtn.image = UIImage(named: "Upload To Cloud-25.png")
         self.navigationItem.leftBarButtonItem  = uploadBtn
         self.navigationItem.rightBarButtonItem  = selectBtn
         
@@ -88,7 +94,6 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        
         let tag = alertView.tag
         let textField = alertView.textFieldAtIndex(0)
         
@@ -108,9 +113,13 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
     }
     
     func uploadPhoto(groupIndex:Int){
+        //清除要傳給人臉辨識的照片清單
+        self._faces.removeAll(keepCapacity: false)
         
-        let groupChannel = _group[groupIndex].ChannelName
-        let groupName = _group[groupIndex].GroupName
+        let currentGroup = _group[groupIndex]
+        let groupID = currentGroup.GroupId
+        let groupChannel = currentGroup.ChannelName
+        let groupName = currentGroup.GroupName
         
         if self._data.count == 0{
             let alert = UIAlertView()
@@ -128,6 +137,9 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
         var uploadData = [PFObject]()
         
         for data in self._data{
+            
+            //加入人臉辨識照片清單
+            self._faces.append(data.Image)
             
             var detail_file = PFFile(data: UIImageJPEGRepresentation(data.Image,0.8))
             var preview_file = PFFile(data: UIImageJPEGRepresentation(data.Image.GetResizeImage(0.5), 0.1))
@@ -151,6 +163,7 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
             
             each.saveInBackgroundWithBlock({ (succeed, error) -> Void in
                 
+                //已經回來的總數
                 count++
                 self.progressBar.progress = Float(count) * percent
                 
@@ -163,62 +176,19 @@ class UploadCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIA
                 
                 //傳到最後一個完成後執行
                 if count == uploadData.count{
+                    //轉到人臉辨識及推播畫面
                     self.progressBar.progress = 1
-                    
-                    //self._data.removeAll(keepCapacity: false)
-                    //self.tableView.reloadData()
-                    //self.navigationItem.title = "上傳照片(\(self._data.count))"
                     
                     Global.Loading.hideActivityIndicator(self.view)
                     
-                    //Global.LastNewsViewChanged = true
-                    //Global.PreviewViewChanged = true
-                    
-                    let alert = UIAlertView()
-                    //alert.title = "系統訊息"
-                    alert.message = "上傳完成"
-                    alert.addButtonWithTitle("OK")
-                    alert.show()
+                    Global.CurrentGroup = currentGroup
                     
                     self.progressBar.hidden = true
                     
-                    var data = [
-                        "alert":"\(groupName) 新增了 \(uploadData.count) 張照片",
-                        "badge":"Increment",
-                        "sound":"n9.caf"
-                    ];
-                    
-                    //推播訊息
-                    //var pushQuery = PFInstallation.query()
-                    //pushQuery?.whereKey("deviceToken", notEqualTo: "\(Global.MyDeviceToken)")
-                    //pushQuery?.whereKey("channels", equalTo: groupChannel)
-                    
-                    var userQuery = PFUser.query()!
-                    userQuery.whereKey("channels", containedIn: [groupChannel])
-                    
-                    //let users = userQuery?.findObjects()
-                    
-//                    var uuids = [String]()
-//                    
-//                    for user in users!{
-//                        let uuid = user["username"] as? String
-//                        if uuid != nil && uuid != Global.MyUUID{
-//                            uuids.append(GenerateUUIDChannel(uuid!))
-//                        }
-//                    }
-                    
-                    var deviceQuery = PFInstallation.query()!
-                    //pushQuery?.whereKey("channels", containedIn: uuids)
-                    deviceQuery.whereKey("user", matchesQuery: userQuery)
-                    deviceQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
-                    
-                    var push = PFPush()
-                    push.setQuery(deviceQuery)
-                    //push.setChannel(Global.MyGroups[buttonIndex - 1].ChannelName)
-                    push.setData(data)
-                    //push.setMessage("新照片通知")
-                    
-                    push.sendPushInBackground()
+                    //跳到人臉偵測的畫面
+                    let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("faceView") as! FaceDetectViewCtrl
+                    nextView._data = self._faces
+                    self.navigationController?.pushViewController(nextView, animated: true)
                 }
             })
         }

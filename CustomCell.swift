@@ -102,4 +102,19 @@ class IntegrateCell: UITableViewCell {
     }
 }
 
+class FaceDetectCell: UITableViewCell {
+    
+    @IBOutlet weak var Face: UIImageView!
+    @IBOutlet weak var Name: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        // Configure the view for the selected state
+    }
+}
+
 

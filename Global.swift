@@ -20,6 +20,7 @@ struct Global {
     
     static var DSNSList = [String:Bool]()
     static var MyGroups:[GroupItem]!
+    static var CurrentGroup:GroupItem!
     static var MyDeviceToken:String!
     
     static var Installation = PFInstallation.currentInstallation()
@@ -246,6 +247,7 @@ class LoadingIndicator {
 }
 
 struct GroupItem {
+    var connector:Connector!
     var GroupId:String!
     var GroupName:String!
     var ChannelName:String!

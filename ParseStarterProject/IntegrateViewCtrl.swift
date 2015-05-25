@@ -80,8 +80,7 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("IntegrateDetail") as! IntegrateDetailViewCtrl
-        //nextView.date = self._data[indexPath.row].Date
-        nextView.date = "aaa"
+        nextView.date = self._data[indexPath.row].Date
         nextView.type = self._data[indexPath.row].Type
         nextView.content = self._data[indexPath.row].Content
         

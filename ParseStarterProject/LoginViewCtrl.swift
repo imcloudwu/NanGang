@@ -200,13 +200,14 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                 //不支援的DSNS在這邊就不會繼續做下去
                 for group in xml["Body"]["Group"]{
                     
+                    let groupDSNS = con.DSNS
                     let groupId = group["GroupId"].element?.text
                     let groupName = group["GroupName"].element?.text
                     let isTeacher = group["IsTeacher"].element?.text == "true" ? true : false
                     
-                    var channelName = GenerateChannelString(con.DSNS, groupId)
+                    var channelName = GenerateChannelString(groupDSNS, groupId)
                     
-                    var item = GroupItem(GroupId: groupId, GroupName: groupName, ChannelName: channelName, IsTeacher: isTeacher)
+                    var item = GroupItem(connector: con,GroupId: groupId, GroupName: groupName, ChannelName: channelName, IsTeacher: isTeacher)
                     
                     self._registerGroups.append(item)
                 }
