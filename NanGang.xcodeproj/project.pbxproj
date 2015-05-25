@@ -38,10 +38,12 @@
 		612CE05D1AD5357100B99541 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 612CE05C1AD5357100B99541 /* Launch Screen.xib */; };
 		61351F721AD76B20009705DB /* LastNewsCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61351F711AD76B20009705DB /* LastNewsCtrl.swift */; };
 		613539181B0C8FD300C5082A /* FaceDetectViewCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613539171B0C8FD300C5082A /* FaceDetectViewCtrl.swift */; };
-		6135391B1B0C9CB200C5082A /* libKairosSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6135391A1B0C9CB200C5082A /* libKairosSDK.a */; };
 		613BC6B21ADCB19D005B783F /* TabBarCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613BC6B11ADCB19D005B783F /* TabBarCtrl.swift */; };
 		61456D3D1ACD37E1008B976A /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456D3C1ACD37E1008B976A /* CustomCell.swift */; };
 		614C037F1ADFB37F000E6B36 /* Download From Cloud-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 614C037D1ADFB37F000E6B36 /* Download From Cloud-25.png */; };
+		616A13FC1B1301920078B801 /* libKairosSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6135391A1B0C9CB200C5082A /* libKairosSDK.a */; };
+		616A13FD1B13031D0078B801 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817C1A49E0EA00E65899 /* MobileCoreServices.framework */; };
+		616A13FE1B13032A0078B801 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817A1A49E0E500E65899 /* SystemConfiguration.framework */; };
 		6170EFB11B0DB3C900E6C5E4 /* 1ADMIN app front-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 6170EFA71B0DB3C900E6C5E4 /* 1ADMIN app front-01.png */; };
 		6170EFB21B0DB3C900E6C5E4 /* Add User-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 6170EFA81B0DB3C900E6C5E4 /* Add User-32.png */; };
 		6170EFB31B0DB3C900E6C5E4 /* Books-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6170EFA91B0DB3C900E6C5E4 /* Books-100.png */; };
@@ -76,8 +78,6 @@
 		81BA81721A49DB6800E65899 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA816D1A49DB6800E65899 /* ParseCrashReporting.framework */; };
 		81BA81731A49DB6800E65899 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA816E1A49DB6800E65899 /* ParseFacebookUtils.framework */; };
 		81BA81771A49E0D500E65899 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA81761A49E0D500E65899 /* libsqlite3.dylib */; };
-		81BA817B1A49E0E500E65899 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817A1A49E0E500E65899 /* SystemConfiguration.framework */; };
-		81BA817D1A49E0EA00E65899 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817C1A49E0EA00E65899 /* MobileCoreServices.framework */; };
 		81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */; };
 		81BA81811A49E10C00E65899 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA81801A49E10C00E65899 /* ParseUI.framework */; };
 /* End PBXBuildFile section */
@@ -178,17 +178,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				616A13FE1B13032A0078B801 /* SystemConfiguration.framework in Frameworks */,
+				616A13FD1B13031D0078B801 /* MobileCoreServices.framework in Frameworks */,
 				612CE05B1AD52B0400B99541 /* AssetsLibrary.framework in Frameworks */,
 				81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */,
-				81BA817D1A49E0EA00E65899 /* MobileCoreServices.framework in Frameworks */,
-				6135391B1B0C9CB200C5082A /* libKairosSDK.a in Frameworks */,
-				81BA817B1A49E0E500E65899 /* SystemConfiguration.framework in Frameworks */,
 				81BA81771A49E0D500E65899 /* libsqlite3.dylib in Frameworks */,
 				81BA81711A49DB6800E65899 /* Parse.framework in Frameworks */,
 				81BA81721A49DB6800E65899 /* ParseCrashReporting.framework in Frameworks */,
 				81BA81731A49DB6800E65899 /* ParseFacebookUtils.framework in Frameworks */,
 				81BA81811A49E10C00E65899 /* ParseUI.framework in Frameworks */,
 				81BA81701A49DB6800E65899 /* Bolts.framework in Frameworks */,
+				616A13FC1B1301920078B801 /* libKairosSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,7 +637,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inferited)",
 					"$(PROJECT_DIR)",
 				);
 				OTHER_LDFLAGS = "";
@@ -645,6 +645,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParseStarterProject/ParseStarterProject-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7 armv7s armv6 armv6s";
 			};
 			name = Debug;
 		};
@@ -663,7 +664,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inferited)",
 					"$(PROJECT_DIR)",
 				);
 				OTHER_LDFLAGS = "";
@@ -671,6 +672,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParseStarterProject/ParseStarterProject-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7 armv7s armv6 armv6s";
 			};
 			name = Release;
 		};

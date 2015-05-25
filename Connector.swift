@@ -205,7 +205,7 @@ public class Connector{
         }
         else{
             if let data = sessionData as NSData?{
-                println(NSString(data: data, encoding: NSUTF8StringEncoding))
+                //println(NSString(data: data, encoding: NSUTF8StringEncoding))
                 var xml = SWXMLHash.parse(data)
                 //var wrapping_sessionid = xml["Envelope"]["Body"]["SessionID"].element?.text
                 //println(xml)

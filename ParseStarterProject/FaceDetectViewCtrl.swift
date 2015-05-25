@@ -33,12 +33,6 @@ class FaceDetectViewCtrl: UIViewController,UITableViewDataSource,UITableViewDele
         
         Global.Loading.showActivityIndicator(self.view)
         
-        KairosSDK.galleryView("", success: { ([NSObject : AnyObject]!) -> Void in
-            //
-        }) { ([NSObject : AnyObject]!) -> Void in
-            //
-        }
-        
         _currentGroup = Global.CurrentGroup
         
         _pushConnector = _currentGroup.connector.Clone()
@@ -157,7 +151,7 @@ class FaceDetectViewCtrl: UIViewController,UITableViewDataSource,UITableViewDele
                                     })
                                 }
                                 else{
-                                    self._persons[current_index].Name = "辨識失敗,請點擊作標註"
+                                    self._persons[current_index].Name = "請點擊作標註"
                                     self.tableView.reloadData()
                                 }
                                 
@@ -343,7 +337,7 @@ class FaceDetectViewCtrl: UIViewController,UITableViewDataSource,UITableViewDele
                 callback(name: student_name)
             }
             else{
-                callback(name: "辨識失敗,請點擊作標註")
+                callback(name: "請點擊作標註")
             }
         })
     }
