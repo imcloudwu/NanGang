@@ -147,6 +147,10 @@ extension String {
     public var UrlEncoding: String?{
         return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
     }
+    
+    public var UrlDecoding: String?{
+        return self.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+    }
 }
 
 extension NSData {

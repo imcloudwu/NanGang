@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		610049521B14435E00124689 /* Name-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 610049511B14435E00124689 /* Name-50.png */; };
 		6100CE901AFCBE1500C9254E /* IntegrateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */; };
+		6107A4581B1728F300F87488 /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 6107A4571B1728F300F87488 /* chart.png */; };
+		610884741B142D4500FB35E1 /* Change User-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 610884731B142D4500FB35E1 /* Change User-25.png */; };
 		61157AD61AD616A50074C6B6 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61157AC01AD616A50074C6B6 /* ELCAlbumPickerController.m */; };
 		61157AD71AD616A50074C6B6 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 61157AC21AD616A50074C6B6 /* ELCAsset.m */; };
 		61157AD81AD616A50074C6B6 /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61157AC41AD616A50074C6B6 /* ELCAssetCell.m */; };
@@ -66,6 +69,7 @@
 		61C124541ADCE0EF0067ABDA /* AddChildViewCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C124531ADCE0EF0067ABDA /* AddChildViewCtrl.swift */; };
 		61C1245E1ADCEB2A0067ABDA /* ScanViewCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C1245D1ADCEB2A0067ABDA /* ScanViewCtrl.swift */; };
 		61C124601ADCEB5B0067ABDA /* KeyinViewCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C1245F1ADCEB5B0067ABDA /* KeyinViewCtrl.swift */; };
+		61DE1A811B15B8D200EBC794 /* IntegrateBrowserCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE1A801B15B8D200EBC794 /* IntegrateBrowserCtrl.swift */; };
 		61E9AABD1AE0D5CF00288FBD /* Exit-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 61E9AABB1AE0D5CF00288FBD /* Exit-25.png */; };
 		61E9AABE1AE0D5CF00288FBD /* Trash-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 61E9AABC1AE0D5CF00288FBD /* Trash-25.png */; };
 		61E9AAC01AE11AF800288FBD /* n9.caf in Resources */ = {isa = PBXBuildFile; fileRef = 61E9AABF1AE11AF800288FBD /* n9.caf */; };
@@ -83,7 +87,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		610049511B14435E00124689 /* Name-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Name-50.png"; path = "icons/Name-50.png"; sourceTree = "<group>"; };
 		6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrateDetailView.swift; sourceTree = "<group>"; };
+		6107A4571B1728F300F87488 /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chart.png; path = icons/chart.png; sourceTree = "<group>"; };
+		610884731B142D4500FB35E1 /* Change User-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Change User-25.png"; path = "icons/Change User-25.png"; sourceTree = "<group>"; };
 		61157ABF1AD616A50074C6B6 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
 		61157AC01AD616A50074C6B6 /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
 		61157AC11AD616A50074C6B6 /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
@@ -151,6 +158,7 @@
 		61C124531ADCE0EF0067ABDA /* AddChildViewCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChildViewCtrl.swift; sourceTree = "<group>"; };
 		61C1245D1ADCEB2A0067ABDA /* ScanViewCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanViewCtrl.swift; sourceTree = "<group>"; };
 		61C1245F1ADCEB5B0067ABDA /* KeyinViewCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyinViewCtrl.swift; sourceTree = "<group>"; };
+		61DE1A801B15B8D200EBC794 /* IntegrateBrowserCtrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrateBrowserCtrl.swift; sourceTree = "<group>"; };
 		61E9AABB1AE0D5CF00288FBD /* Exit-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Exit-25.png"; path = "icons/Exit-25.png"; sourceTree = "<group>"; };
 		61E9AABC1AE0D5CF00288FBD /* Trash-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Trash-25.png"; path = "icons/Trash-25.png"; sourceTree = "<group>"; };
 		61E9AABF1AE11AF800288FBD /* n9.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = n9.caf; sourceTree = "<group>"; };
@@ -243,6 +251,9 @@
 		611DA8441AC8E1B5008F8A1C /* Icon */ = {
 			isa = PBXGroup;
 			children = (
+				6107A4571B1728F300F87488 /* chart.png */,
+				610049511B14435E00124689 /* Name-50.png */,
+				610884731B142D4500FB35E1 /* Change User-25.png */,
 				611EAB0E1B12CD7700DD3066 /* icon-29.png */,
 				611EAB0F1B12CD7700DD3066 /* icon-40.png */,
 				611EAB101B12CD7700DD3066 /* icon-58.png */,
@@ -323,6 +334,7 @@
 				61157AF21AD65EE80074C6B6 /* UploadCtrl.swift */,
 				618256D91AFB7B4B00EB6847 /* IntegrateViewCtrl.swift */,
 				6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */,
+				61DE1A801B15B8D200EBC794 /* IntegrateBrowserCtrl.swift */,
 				61157AF41AD65F200074C6B6 /* EmptyCtrl.swift */,
 				81BA814E1A49DA1800E65899 /* Main.storyboard */,
 				81BA81511A49DA1800E65899 /* Images.xcassets */,
@@ -443,6 +455,7 @@
 				6170EFB31B0DB3C900E6C5E4 /* Books-100.png in Resources */,
 				61157AE01AD616A50074C6B6 /* Overlay.png in Resources */,
 				612CE05D1AD5357100B99541 /* Launch Screen.xib in Resources */,
+				6107A4581B1728F300F87488 /* chart.png in Resources */,
 				61E9AAC01AE11AF800288FBD /* n9.caf in Resources */,
 				61FB6D671B0F089C006DE0AA /* Online-25.png in Resources */,
 				611EAB1D1B12CD7700DD3066 /* icon-120.png in Resources */,
@@ -460,6 +473,7 @@
 				6170EFB21B0DB3C900E6C5E4 /* Add User-32.png in Resources */,
 				611EAB181B12CD7700DD3066 /* icon-40.png in Resources */,
 				61157ADF1AD616A50074C6B6 /* ELCAssetTablePicker.xib in Resources */,
+				610049521B14435E00124689 /* Name-50.png in Resources */,
 				6170EFB51B0DB3C900E6C5E4 /* Health-100.png in Resources */,
 				611EAB1B1B12CD7700DD3066 /* icon-80.png in Resources */,
 				6170EFBC1B0DB3EB00E6C5E4 /* Stack Of Photos Filled-32.png in Resources */,
@@ -467,6 +481,7 @@
 				611EAB191B12CD7700DD3066 /* icon-58.png in Resources */,
 				6170EFB11B0DB3C900E6C5E4 /* 1ADMIN app front-01.png in Resources */,
 				6170EFB91B0DB3C900E6C5E4 /* QR Code-100.png in Resources */,
+				610884741B142D4500FB35E1 /* Change User-25.png in Resources */,
 				6170EFC31B0DB55000E6C5E4 /* Add File-25.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,6 +527,7 @@
 				61157AF51AD65F200074C6B6 /* EmptyCtrl.swift in Sources */,
 				61BFE9F11AC3DB3A00F422AB /* Global.swift in Sources */,
 				61157AD61AD616A50074C6B6 /* ELCAlbumPickerController.m in Sources */,
+				61DE1A811B15B8D200EBC794 /* IntegrateBrowserCtrl.swift in Sources */,
 				613539181B0C8FD300C5082A /* FaceDetectViewCtrl.swift in Sources */,
 				61BFE9EB1AC3D67B00F422AB /* HttpClient.swift in Sources */,
 				61BFE9EF1AC3D6D600F422AB /* SWXMLHash.swift in Sources */,

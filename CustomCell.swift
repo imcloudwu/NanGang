@@ -102,6 +102,24 @@ class IntegrateCell: UITableViewCell {
     }
 }
 
+class AnalyticsCell: UITableViewCell {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        //Comment.sizeToFit()
+        //        self.layer.masksToBounds = true
+        //        self.layer.cornerRadius = 5
+        //        self.backgroundColor = UIColor(red: 217.0/255.0, green: 1, blue: 196.0/255.0, alpha: 0.8)
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        //super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+}
+
 class FaceDetectCell: UITableViewCell {
     
     @IBOutlet weak var Face: UIImageView!
