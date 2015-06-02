@@ -83,8 +83,9 @@ class LastNewsCell: UITableViewCell {
 
 class IntegrateCell: UITableViewCell {
     
-    @IBOutlet weak var Datetime: UILabel!
-    @IBOutlet weak var Title: UILabel!
+    @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var Date: UILabel!
+    @IBOutlet weak var Content: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

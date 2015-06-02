@@ -19,7 +19,7 @@ import UIKit
 
 class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate {
     
-    enum SystemType:Int{
+    internal enum SystemType:Int{
         case Bulletin,Library,Health
     }
     
@@ -34,6 +34,10 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
     var _currentSystemType:SystemType!
     
     var childActionSheet:UIActionSheet!
+    
+    let BulletinIcon = UIImage(named: "bulletin.png")
+    let LibraryIcon = UIImage(named: "library.png")
+    let HealthIcon = UIImage(named: "health.png")
     
     @IBOutlet weak var childLabel: UILabel!
     @IBOutlet weak var segment: UISegmentedControl!
@@ -76,6 +80,10 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         ConnectorInit({ () -> () in
             self.GetChildItem()
         })
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        segment.enabled = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -151,29 +159,91 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         
-        if self._data[indexPath.row].Type == "這是分析圖"{
+        if self._data[indexPath.row].Title == "chart"{
             let cell = tableView.dequeueReusableCellWithIdentifier("analyticsCell") as! AnalyticsCell
+            
+            for sub in cell.contentView.subviews{
+                sub.removeFromSuperview()
+            }
+            
+            if self._data[indexPath.row].Type == "library"{
+                var dataItem: PDBarChartDataItem = PDBarChartDataItem()
+                dataItem.xMax = 10
+                dataItem.xInterval = 1
+                dataItem.yMax = 100
+                dataItem.yInterval = 50
+                dataItem.barPointArray = [CGPoint(x: 1.0, y: 95.0), CGPoint(x: 2.0, y: 25.0), CGPoint(x: 3.0, y: 30.0), CGPoint(x: 4.0, y:50.0), CGPoint(x: 5.0, y: 55.0), CGPoint(x: 6.0, y: 60.0), CGPoint(x: 7.0, y: 90.0),CGPoint(x: 8.0, y: 60.0),CGPoint(x: 9.0, y: 60.0),CGPoint(x: 10.0, y: 60.0),]
+                dataItem.xAxesDegreeTexts = ["總", "哲", "宗", "自", "應", "社", "中", "世", "語", "美"]
+                dataItem.yAxesDegreeTexts = ["50","100"]
+                
+                let width = cell.contentView.frame.width
+                let height = cell.contentView.frame.height
+                let x = cell.contentView.frame.origin.x
+                let y = cell.contentView.frame.origin.y
+                
+                var barChart: PDBarChart = PDBarChart(frame: CGRectMake(-20, -40, 360, 200), dataItem: dataItem)
+                //barChart.center = cell.contentView.center
+                
+                cell.contentView.addSubview(barChart)
+                barChart.strokeChart()
+            }
+            else if self._data[indexPath.row].Type == "health"{
+                var dataItem: PDLineChartDataItem = PDLineChartDataItem()
+                dataItem.xMax = 6.0
+                dataItem.xInterval = 1.0
+                dataItem.yMax = 30.0
+                dataItem.yInterval = 10.0
+                dataItem.pointArray = [CGPoint(x: 1.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 2.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 3.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 4.0, y:CGFloat(arc4random_uniform(30))), CGPoint(x: 5.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 6.0, y: CGFloat(arc4random_uniform(30)))]
+                dataItem.xAxesDegreeTexts = ["99", "100", "101", "102", "103", "104"]
+                dataItem.yAxesDegreeTexts = ["10", "20", "30"]
+                
+                var lineChart: PDLineChart = PDLineChart(frame: CGRectMake(0, -40, 320, 200), dataItem: dataItem)
+                //lineChart.center = cell.contentView.center
+                
+                cell.contentView.addSubview(lineChart)
+                lineChart.strokeChart()
+            }
+            
             return cell
         }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("integrateCell") as! IntegrateCell
-        
-        let date = self._data[indexPath.row].Date
-        
-        if count(date) >= 10{
-            cell.Datetime.text = (self._data[indexPath.row].Date as NSString).substringToIndex(10)
-        }
         else{
-            cell.Datetime.text = "error date time format"
+            let cell = tableView.dequeueReusableCellWithIdentifier("integrateCell") as! IntegrateCell
+            
+            let date = self._data[indexPath.row].Date
+            
+            if count(date) >= 10{
+                cell.Date.text = (self._data[indexPath.row].Date as NSString).substringToIndex(10)
+            }
+            else{
+                cell.Date.text = "error date time format"
+            }
+            
+            switch self._data[indexPath.row].Type{
+                
+            case "bulletin":
+                
+                cell.icon.image = BulletinIcon
+                cell.Content.text = self._data[indexPath.row].Title
+                
+            case "library":
+                
+                cell.icon.image = LibraryIcon
+                cell.Content.text = "書籍名稱 : \(self._data[indexPath.row].Book)"
+                
+            default:
+                
+                cell.icon.image = HealthIcon
+                cell.Content.text = self._data[indexPath.row].Title
+                
+            }
+            
+            return cell
         }
-        
-        cell.Title.text = self._data[indexPath.row].Title
-        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         
-        if self._data[indexPath.row].Type == "這是分析圖"{
+        if self._data[indexPath.row].Title == "chart"{
             //nothing here now...
             println("nothing here now...")
         }
@@ -191,6 +261,14 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
             
             self.navigationController?.pushViewController(nextView, animated: true)
         }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+        if self._data[indexPath.row].Title == "chart"{
+            return 150
+        }
+        
+        return 80.0
     }
     
     func GetData(){
@@ -227,10 +305,17 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 let messageContent = elem["MessageContent"].element?.text
                 let messageTitle = elem["MessageTitle"].element?.text
                 
-                self._data.append(IntegrateData(Date: lastUpdate, Title: messageTitle, Content: messageContent, Type: systemType))
+                var data : IntegrateData = IntegrateData(Date: lastUpdate, Title: messageTitle, Content: messageContent, Type: systemType)
+                data.LoadData(self._currentSystemType)
+                
+                self._data.append(data)
+                
+                //self._data.append(IntegrateData(Date: lastUpdate, Title: messageTitle, Content: messageContent, Type: systemType))
             }
             
-            self._data.insert(IntegrateData(Date: "", Title: "分析圖", Content: "有個圖", Type: "這是分析圖"), atIndex: 0)
+            if self._currentSystemType != SystemType.Bulletin{
+                self._data.insert(IntegrateData(Date: "", Title: "chart", Content: "有個圖", Type: systemType), atIndex: 0)
+            }
             
             self.tableView.reloadData()
             
@@ -268,20 +353,57 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
-        if self._data[indexPath.row].Type == "這是分析圖"{
-            return 167.0
-        }
-        
-        return 67.0
-    }
 }
 
-struct IntegrateData{
+class IntegrateData{
+    
     var Date:String!
     var Title:String!
     var Content:String!
     var Type:String!
+    var Book:String!
+    var Isbn:String!
+    
+    init(Date:String?,Title:String?,Content:String?,Type:String?){
+        self.Date = Date
+        self.Title = Title
+        self.Content = Content
+        self.Type = Type
+        self.Book = ""
+        self.Isbn = ""
+    }
+    
+    func LoadData(type:IntegrateViewCtrl.SystemType){
+        
+        switch type{
+        case IntegrateViewCtrl.SystemType.Bulletin:
+            //...
+            println("y")
+            
+        case IntegrateViewCtrl.SystemType.Library:
+            
+            if let jsonResult = NSJSONSerialization.JSONObjectWithData(Content.dataValue, options: nil, error: nil) as? NSDictionary{
+                if let bookName = jsonResult["book"] as? String{
+                    Book = bookName
+                }
+                
+                if let bookNumber = jsonResult["isbm"] as? String{
+                    Isbn = bookNumber
+                }
+                
+                if Book != "" || Isbn != ""{
+                    Title = "\(Book) : \(Isbn)"
+                }
+            }
+            
+        case IntegrateViewCtrl.SystemType.Health:
+            //...
+            println("y")
+            
+        default:
+            println("y")
+        }
+    }
 }
 
 struct ChildItem{

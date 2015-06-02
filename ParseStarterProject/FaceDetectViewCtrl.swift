@@ -189,6 +189,8 @@ class FaceDetectViewCtrl: UIViewController,UITableViewDataSource,UITableViewDele
         
         _pushConnector.SendRequest("SendMessageByIDs", body: "<Request><IDs>\(body)</IDs><Message>\(message)</Message></Request>", function: { (response) -> () in
             
+            //println(NSString(data: response, encoding: NSUTF8StringEncoding))
+            
             Global.Loading.hideActivityIndicator(self.view)
             
             let alert = UIAlertView()
@@ -260,6 +262,13 @@ class FaceDetectViewCtrl: UIViewController,UITableViewDataSource,UITableViewDele
             alert.message = "學生清單產生中,請稍候再試"
             alert.addButtonWithTitle("OK")
             alert.show()
+        }
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
+        if editingStyle == UITableViewCellEditingStyle.Delete{
+            self._persons.removeAtIndex(indexPath.row)
+            tableView.reloadData()
         }
     }
     
