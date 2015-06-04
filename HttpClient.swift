@@ -14,7 +14,7 @@ public class HttpClient{
         
         //var nsurl = NSURL(string: url)
         var req = NSURLRequest(URL: NSURL(string: url)!)
-        //var req = NSURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 1)
+        //var req = NSURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10)
         var conn = NSURLConnection(request: req, delegate: HttpRequest(callback: callback), startImmediately: true)
     }
     
@@ -51,9 +51,9 @@ public class HttpClient{
             // This will be called when the data loading is finished i.e. there is no data left to be received and now you can process the data.
         }
         
-        //        func connection(connection: NSURLConnection, didFailWithError error: NSError){
-        //            self.callback(data:NSData())
-        //        }
+        func connection(connection: NSURLConnection, didFailWithError error: NSError){
+            self.callback(data:NSData())
+        }
     }
 }
 

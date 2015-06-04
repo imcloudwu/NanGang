@@ -35,9 +35,13 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     var childActionSheet:UIActionSheet!
     
+    var _chartData = [String:Int]()
+    
     let BulletinIcon = UIImage(named: "bulletin.png")
     let LibraryIcon = UIImage(named: "library.png")
     let HealthIcon = UIImage(named: "health.png")
+    
+    let ScreenWidth = UIScreen.mainScreen().bounds.size.width
     
     @IBOutlet weak var childLabel: UILabel!
     @IBOutlet weak var segment: UISegmentedControl!
@@ -167,22 +171,33 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
             }
             
             if self._data[indexPath.row].Type == "library"{
+                
+                var chartData = [CGPoint]()
+                
+                for index in 0...9{
+                    chartData.append(CGPoint(x: index,y: 0))
+                }
+                
+                for key in self._chartData{
+                    chartData[key.0.toInt()!].y = CGFloat(key.1)
+                }
+                
                 var dataItem: PDBarChartDataItem = PDBarChartDataItem()
                 dataItem.xMax = 10
                 dataItem.xInterval = 1
                 dataItem.yMax = 100
                 dataItem.yInterval = 50
-                dataItem.barPointArray = [CGPoint(x: 1.0, y: 95.0), CGPoint(x: 2.0, y: 25.0), CGPoint(x: 3.0, y: 30.0), CGPoint(x: 4.0, y:50.0), CGPoint(x: 5.0, y: 55.0), CGPoint(x: 6.0, y: 60.0), CGPoint(x: 7.0, y: 90.0),CGPoint(x: 8.0, y: 60.0),CGPoint(x: 9.0, y: 60.0),CGPoint(x: 10.0, y: 60.0),]
+                //dataItem.barPointArray = [CGPoint(x:1.0,y:100.0),CGPoint(x:9.0,y:90.0)]
+                dataItem.barPointArray = chartData
                 dataItem.xAxesDegreeTexts = ["總", "哲", "宗", "自", "應", "社", "中", "世", "語", "美"]
                 dataItem.yAxesDegreeTexts = ["50","100"]
                 
                 let width = cell.contentView.frame.width
+                let swidth = cell.contentView.frame.size.width
                 let height = cell.contentView.frame.height
-                let x = cell.contentView.frame.origin.x
-                let y = cell.contentView.frame.origin.y
+                let sheight = cell.contentView.frame.size.height
                 
-                var barChart: PDBarChart = PDBarChart(frame: CGRectMake(-20, -40, 360, 200), dataItem: dataItem)
-                //barChart.center = cell.contentView.center
+                var barChart: PDBarChart = PDBarChart(frame: CGRectMake(0, -40, ScreenWidth, 200), dataItem: dataItem)
                 
                 cell.contentView.addSubview(barChart)
                 barChart.strokeChart()
@@ -197,8 +212,7 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 dataItem.xAxesDegreeTexts = ["99", "100", "101", "102", "103", "104"]
                 dataItem.yAxesDegreeTexts = ["10", "20", "30"]
                 
-                var lineChart: PDLineChart = PDLineChart(frame: CGRectMake(0, -40, 320, 200), dataItem: dataItem)
-                //lineChart.center = cell.contentView.center
+                var lineChart: PDLineChart = PDLineChart(frame: CGRectMake(0, -40, ScreenWidth, 200), dataItem: dataItem)
                 
                 cell.contentView.addSubview(lineChart)
                 lineChart.strokeChart()
@@ -286,6 +300,7 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         
         if _currentSystemType == SystemType.Bulletin{
             systemType = "bulletin"
+            StudentIdNumber = "public"
         }
         else if _currentSystemType == SystemType.Library{
             systemType = "library"
@@ -314,6 +329,22 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
             }
             
             if self._currentSystemType != SystemType.Bulletin{
+                
+                self._chartData.removeAll(keepCapacity: false)
+                
+                for each in self._data{
+                    var data : IntegrateData = each as IntegrateData
+                    if data.Isbn != ""{
+                        let key = (data.Isbn as NSString).substringToIndex(1)
+                        
+                        if self._chartData[key] == nil{
+                            self._chartData[key] = 0
+                        }
+                        
+                        self._chartData[key] = self._chartData[key]! + 1
+                    }
+                }
+                
                 self._data.insert(IntegrateData(Date: "", Title: "chart", Content: "有個圖", Type: systemType), atIndex: 0)
             }
             
@@ -366,7 +397,7 @@ class IntegrateData{
     
     init(Date:String?,Title:String?,Content:String?,Type:String?){
         self.Date = Date
-        self.Title = Title
+        self.Title = Title == nil ? "" : Title
         self.Content = Content
         self.Type = Type
         self.Book = ""
@@ -376,9 +407,6 @@ class IntegrateData{
     func LoadData(type:IntegrateViewCtrl.SystemType){
         
         switch type{
-        case IntegrateViewCtrl.SystemType.Bulletin:
-            //...
-            println("y")
             
         case IntegrateViewCtrl.SystemType.Library:
             
@@ -390,18 +418,10 @@ class IntegrateData{
                 if let bookNumber = jsonResult["isbm"] as? String{
                     Isbn = bookNumber
                 }
-                
-                if Book != "" || Isbn != ""{
-                    Title = "\(Book) : \(Isbn)"
-                }
             }
             
-        case IntegrateViewCtrl.SystemType.Health:
-            //...
-            println("y")
-            
         default:
-            println("y")
+            println("load other type data")
         }
     }
 }

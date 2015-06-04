@@ -50,9 +50,8 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
         
         //var target = "https://auth.ischool.com.tw/logout.php?next=oauth%2Fauthorize.php%3Fclient_id%3D8e306edeffab96c8bdc6c8635cd54b9e%26response_type%3Dcode%26state%3Dredirect_uri%253A%252F%26redirect_uri%3Dhttp%3A%2F%2Fblank%26lang%3Dzh-tw%26scope%3DUser.Mail%2CUser.BasicInfo"
         
-        //Keychain.delete("refreshToken")
-        
         if let refreshToken = Keychain.load("refreshToken")?.stringValue{
+            Keychain.delete("refreshToken")
             Auth(ConnectType.RefreshToken, value: refreshToken)
         }
         else{

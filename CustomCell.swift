@@ -107,6 +107,7 @@ class AnalyticsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         //Comment.sizeToFit()
         //        self.layer.masksToBounds = true
         //        self.layer.cornerRadius = 5

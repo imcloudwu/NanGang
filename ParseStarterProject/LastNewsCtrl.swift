@@ -69,14 +69,21 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
     
     func Logout(){
         
-        HttpClient.Get(GetLogoutUrl("Greening")) { (data) -> () in
-            println("Greening logout")
+        var storage : NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        for cookie in storage.cookies as! [NSHTTPCookie]
+        {
+            storage.deleteCookie(cookie)
         }
+        NSUserDefaults.standardUserDefaults()
         
-        HttpClient.Get(GetLogoutUrl("Google")) { (data) -> () in
-            println("Google logout")
-        }
-        
+//        HttpClient.Get(GetLogoutUrl("Greening")) { (data) -> () in
+//            println("Greening logout")
+//        }
+//        
+//        HttpClient.Get(GetLogoutUrl("Google")) { (data) -> () in
+//            println("Google logout")
+//        }
+//        
         Keychain.delete("refreshToken")
         
         let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("loginView") as! UIViewController

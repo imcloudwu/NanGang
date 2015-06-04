@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>CEA2D436-0F81-4AEB-87C7-42E723EB3A99</string>
 	<key>IDESourceControlProjectName</key>
-	<string>NanGang</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>3025EFB26C5763BA124AD198CF3FA6FDFA8DDA06</key>
 		<string>https://github.com/imcloudwu/NanGang.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>NanGang.xcodeproj</string>
+	<string>NanGang.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>3025EFB26C5763BA124AD198CF3FA6FDFA8DDA06</key>

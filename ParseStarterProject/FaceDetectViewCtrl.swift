@@ -72,6 +72,13 @@ class FaceDetectViewCtrl: UIViewController,UITableViewDataSource,UITableViewDele
             
             var xml = SWXMLHash.parse(nsData)
             
+            if let error = xml["Envelope"]["Header"]["Status"]["Message"].element?.text{
+                let alert = UIAlertView()
+                alert.message = "連線發生異常,建議重新啟動app:\(error)"
+                alert.addButtonWithTitle("OK")
+                alert.show()
+            }
+            
             for student in xml["Body"]["Group"]["Student"]{
                 if let id = student["StudentId"].element?.text{
                     if let name = student["StudentName"].element?.text{
