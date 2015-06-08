@@ -97,6 +97,12 @@
 /* Begin PBXFileReference section */
 		610049511B14435E00124689 /* Name-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Name-50.png"; path = "icons/Name-50.png"; sourceTree = "<group>"; };
 		6100CE8F1AFCBE1500C9254E /* IntegrateDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrateDetailView.swift; sourceTree = "<group>"; };
+		610178EC1B213525008CEE03 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		610178EE1B21352F008CEE03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		610178F01B21353D008CEE03 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		610178F21B213546008CEE03 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		610178F41B213553008CEE03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		610178F61B213560008CEE03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6103833A1B1C3AAC003A710E /* PDBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDBarChart.swift; sourceTree = "<group>"; };
 		6103833B1B1C3AAC003A710E /* PDChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDChart.swift; sourceTree = "<group>"; };
 		6103833D1B1C3AAC003A710E /* PDChartAxesComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDChartAxesComponent.swift; sourceTree = "<group>"; };
@@ -420,6 +426,12 @@
 		81BA816A1A49DB5600E65899 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				610178F61B213560008CEE03 /* UIKit.framework */,
+				610178F41B213553008CEE03 /* Foundation.framework */,
+				610178F21B213546008CEE03 /* CoreImage.framework */,
+				610178F01B21353D008CEE03 /* CoreMedia.framework */,
+				610178EE1B21352F008CEE03 /* CoreGraphics.framework */,
+				610178EC1B213525008CEE03 /* AVFoundation.framework */,
 				613539191B0C9CB200C5082A /* KairosSDK.h */,
 				6135391A1B0C9CB200C5082A /* libKairosSDK.a */,
 				612CE05A1AD52B0400B99541 /* AssetsLibrary.framework */,
@@ -721,6 +733,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				IBC_OTHER_FLAGS = "";
 				INFOPLIST_FILE = ParseStarterProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -728,12 +741,13 @@
 					"$(inferited)",
 					"$(PROJECT_DIR)",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = NanGang;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParseStarterProject/ParseStarterProject-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "arm64 armv7 armv7s armv6 armv6s";
+				VALID_ARCHS = "arm64 armv7 armv7s armv6";
 			};
 			name = Debug;
 		};
@@ -748,6 +762,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				IBC_OTHER_FLAGS = "";
 				INFOPLIST_FILE = ParseStarterProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -760,7 +775,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParseStarterProject/ParseStarterProject-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "arm64 armv7 armv7s armv6 armv6s";
+				VALID_ARCHS = "arm64 armv7 armv7s armv6";
 			};
 			name = Release;
 		};

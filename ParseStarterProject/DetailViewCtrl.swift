@@ -17,9 +17,31 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
     @IBOutlet weak var progressBar: UIProgressView!
     
     var _SelectPicId:String!
+    var _DataArray:[String]!
+    var _currentIndex:Int!
+    
+    func left_swip(){
+        //向左滑動代表要看右邊的,index要變大
+        if _DataArray.count > 0 && _currentIndex != nil && _currentIndex < _DataArray.count - 1{
+            _currentIndex = _currentIndex + 1
+            GetImg(_DataArray[_currentIndex])
+        }
+    }
+    
+    func right_swip(){
+        //向右滑動代表要看左邊的,index要變小
+        if _DataArray.count > 0 && _currentIndex != nil && _currentIndex != 0{
+            _currentIndex = _currentIndex - 1
+            GetImg(_DataArray[_currentIndex])
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if _DataArray == nil {
+            _DataArray = [String]()
+        }
         
         //self.automaticallyAdjustsScrollViewInsets = false
         
@@ -27,12 +49,42 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         scrView.maximumZoomScale = 2.0
         scrView.minimumZoomScale = 1.0
         
+        let leftGesture = UISwipeGestureRecognizer(target: self, action: "left_swip")
+        leftGesture.direction = UISwipeGestureRecognizerDirection.Left
+        
+        let rightGesture = UISwipeGestureRecognizer(target: self, action: "right_swip")
+        rightGesture.direction = UISwipeGestureRecognizerDirection.Right
+        
+        scrView.addGestureRecognizer(leftGesture)
+        scrView.addGestureRecognizer(rightGesture)
+        
+        self.navigationController?.interactivePopGestureRecognizer.enabled = false
+        
+        if _SelectPicId != nil{
+            GetImg(_SelectPicId)
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?{
+        return self.imageView
+    }
+    
+    func GetImg(id:String){
+        
         Global.Loading.showActivityIndicator(self.view)
+        
+        progressBar.hidden = false
+        progressBar.progress = 0
         
         var query = PFQuery(className: "PhotoData")
         
         //指定條件
-        query.whereKey("objectId", equalTo: _SelectPicId)
+        query.whereKey("objectId", equalTo: id)
         
         var pfObject = query.getFirstObject()
         
@@ -75,18 +127,9 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
                 Global.Loading.hideActivityIndicator(self.view)
                 self.progressBar.hidden = true
             }
-        }, progressBlock: { (percent) -> Void in
-            self.progressBar.progress = Float(percent) / 100
+            }, progressBlock: { (percent) -> Void in
+                self.progressBar.progress = Float(percent) / 100
         })
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?{
-        return self.imageView
     }
     
     func SaveImg(){

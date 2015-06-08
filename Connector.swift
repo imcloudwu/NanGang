@@ -128,6 +128,10 @@ public class Connector{
     */
     
     public func GetAccessToken(type:ConnectType) -> Bool {
+        
+        self.AccessToken = nil
+        self.RefreshToken == nil
+        
         var response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil
         var error: NSErrorPointer = nil
         
@@ -146,7 +150,6 @@ public class Connector{
         {
             // You can handle error response here
             println("Get AccessToken error: \(error)")
-            return false
         }
         else
         {
@@ -167,17 +170,15 @@ public class Connector{
                     self.RefreshToken = refreashToken
                     //println(self.RefreshToken)
                 }
-                
-                if (self.AccessToken == nil || self.RefreshToken == nil){
-                    return false
-                }
-            }
-            else{
-                return false
             }
         }
         
-        return true
+        if self.AccessToken != nil && self.RefreshToken != nil{
+            return true
+        }
+        else{
+            return false
+        }
     }
     
     public func GetSessionID() -> Bool {
@@ -201,7 +202,6 @@ public class Connector{
         if error != nil{
             // You can handle error response here
             println("Get SessionID error: \(error)")
-            return false
         }
         else{
             if let data = sessionData as NSData?{
@@ -213,16 +213,14 @@ public class Connector{
                     self.SessionID = sessionid
                     //println("sessionid: \(sessionid)")
                 }
-                
-                if self.SessionID == nil{
-                    return false
-                }
-            }
-            else{
-                return false
             }
         }
         
-        return true
+        if self.SessionID != nil{
+            return true
+        }
+        else{
+            return false
+        }
     }
 }

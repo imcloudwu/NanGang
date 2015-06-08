@@ -157,8 +157,17 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
+        var dataArray = [String]()
+        
+        for item in _data{
+            dataArray.append(item.ID)
+        }
+        
         let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Detail") as! DetailViewCtrl
         nextView._SelectPicId = _data[indexPath.row].ID
+        nextView._currentIndex = indexPath.row
+        nextView._DataArray = dataArray
         
         self.navigationController?.pushViewController(nextView, animated: true)
     }

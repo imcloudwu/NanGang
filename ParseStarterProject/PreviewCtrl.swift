@@ -174,8 +174,16 @@ class PreviewCtrl: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
         
         if let list:[CustomImg] = _mappingData[groupName]{
             
+            var listArray = [String]()
+            
+            for item in list{
+                listArray.append(item.Id)
+            }
+            
             let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("Detail") as! DetailViewCtrl
             nextView._SelectPicId = list[indexPath.row].Id
+            nextView._currentIndex = indexPath.row
+            nextView._DataArray = listArray
             
             self.navigationController?.pushViewController(nextView, animated: true)
         }

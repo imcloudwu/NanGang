@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
+class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate {
     
     @IBOutlet weak var webView: UIWebView!
     
@@ -27,10 +27,14 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let GobackBtn =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Reply, target: self, action: "GoBack")
         self.navigationItem.title = "登入"
+        
+        let GobackBtn =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Reply, target: self, action: "GoBack")
         self.navigationItem.leftBarButtonItem = GobackBtn
         self.navigationItem.leftBarButtonItem?.enabled = false
+        
+        let reloadBtn =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "showLoginView")
+        self.navigationItem.rightBarButtonItem = reloadBtn
         
         Global.LastNewsViewChanged = true
         Global.PreviewViewChanged = true
@@ -61,10 +65,14 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
     }
     
     func showLoginView(){
+        
+        self.navigationItem.rightBarButtonItem?.enabled = false
+        
         //載入登入頁面
         var urlobj = NSURL(string: target)
         var request = NSURLRequest(URL: urlobj!)
         webView.loadRequest(request)
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,6 +100,15 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
     }
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError){
+        
+        //網路異常
+        if error.code == -1009{
+            let alert = UIAlertView()
+            alert.message = "網路無法連線,請點選右上方的重新整理"
+            alert.delegate = self
+            alert.addButtonWithTitle("OK")
+            alert.show()
+        }
         
         //取得code
         if error.domain == "NSURLErrorDomain" && error.code == -1003{
@@ -315,6 +332,10 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate {
                 }
             })
         }
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        self.navigationItem.rightBarButtonItem?.enabled = true
     }
     
 }
