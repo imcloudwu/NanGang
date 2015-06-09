@@ -178,7 +178,6 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
             Logout()
         }
     }
-    
 }
 
 struct NewsObj{

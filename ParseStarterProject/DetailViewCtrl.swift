@@ -24,7 +24,10 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         //向左滑動代表要看右邊的,index要變大
         if _DataArray.count > 0 && _currentIndex != nil && _currentIndex < _DataArray.count - 1{
             _currentIndex = _currentIndex + 1
-            GetImg(_DataArray[_currentIndex])
+            _SelectPicId = _DataArray[_currentIndex]
+            GetImg(_SelectPicId)
+            
+            showAminationOnAdvert(kCATransitionFromRight)
         }
     }
     
@@ -32,8 +35,24 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         //向右滑動代表要看左邊的,index要變小
         if _DataArray.count > 0 && _currentIndex != nil && _currentIndex != 0{
             _currentIndex = _currentIndex - 1
-            GetImg(_DataArray[_currentIndex])
+            _SelectPicId = _DataArray[_currentIndex]
+            GetImg(_SelectPicId)
+            
+            showAminationOnAdvert(kCATransitionFromLeft)
         }
+    }
+    
+    func showAminationOnAdvert(subtype :String){
+        var transitionAnimation = CATransition();
+        transitionAnimation.type = kCATransitionPush;
+        transitionAnimation.subtype = subtype;
+        
+        transitionAnimation.duration = 0.5;
+        
+        transitionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut);
+        transitionAnimation.fillMode = kCAFillModeBoth;
+        
+        imageView.layer.addAnimation(transitionAnimation, forKey: "fadeAnimation")
     }
     
     override func viewDidLoad() {
@@ -143,7 +162,7 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func DeleteImg(){
+    func DeleteImg(id:String){
         
         var query = PFQuery(className: "PhotoData")
         
@@ -152,7 +171,7 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         
         //var pfObject = query.getFirstObject()
         
-        query.getObjectInBackgroundWithId(_SelectPicId) { (PFObject, NSError) -> Void in
+        query.getObjectInBackgroundWithId(id) { (PFObject, NSError) -> Void in
             
             PFObject!.deleteInBackgroundWithBlock({ (succeed, error) -> Void in
                 if succeed{
@@ -194,7 +213,7 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         
         //執行刪除
         if alertView.buttonTitleAtIndex(buttonIndex) == "確認"{
-            DeleteImg()
+            DeleteImg(_SelectPicId)
         }
     }
 }
