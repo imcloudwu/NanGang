@@ -78,7 +78,9 @@ class ScanViewCtrl: UIViewController,AVCaptureMetadataOutputObjectsDelegate,UIAl
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        Global.LoginInstance.GetDSNSList(self)
+        //Global.LoginInstance.GetDSNSList(self)
+        let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("loginView") as! UIViewController
+        self.presentViewController(nextView, animated: true, completion: nil)
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!){

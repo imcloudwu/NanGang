@@ -17,7 +17,9 @@ class IntegrateBrowserCtrl: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let jsonResult = NSJSONSerialization.JSONObjectWithData(content.dataValue, options: nil, error: nil) as? NSDictionary{
+        var error : NSError?
+        
+        if let jsonResult = NSJSONSerialization.JSONObjectWithData(content.dataValue, options: nil, error: &error) as? NSDictionary{
             if let decodeUrl = jsonResult["pub_url"] as? String{
                 //var url = decodeUrl.UrlDecoding
                 
@@ -26,6 +28,9 @@ class IntegrateBrowserCtrl: UIViewController {
                 var request = NSURLRequest(URL: urlobj!)
                 webView.loadRequest(request)
             }
+        }
+        else{
+            println(error)
         }
     }
     

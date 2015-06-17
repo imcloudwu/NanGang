@@ -97,7 +97,9 @@ class KeyinViewCtrl: UIViewController,UITableViewDelegate,UITableViewDataSource,
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        Global.LoginInstance.GetDSNSList(self)
+        //Global.LoginInstance.GetDSNSList(self)
+        let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("loginView") as! UIViewController
+        self.presentViewController(nextView, animated: true, completion: nil)
     }
     
     func newSearch(matchName:String){

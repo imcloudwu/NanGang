@@ -206,6 +206,8 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate,UIA
     
     func GetMyGroup(con:Connector,complete:() -> ()){
         
+        //println("http://dsns.1campus.net/\(con.DSNS)/sakura/GetMyGroup?stt=PassportAccessToken&AccessToken=\(con.AccessToken)")
+        
         HttpClient.Get("http://dsns.1campus.net/\(con.DSNS)/sakura/GetMyGroup?stt=PassportAccessToken&AccessToken=\(con.AccessToken)"){ (nsData) -> () in
             
             //println("=======\(con.DSNS)======")
@@ -257,7 +259,7 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate,UIA
                             let newUser = PFUser()
                             newUser.username = uuid
                             newUser.password = ""
-                            newUser.email = email
+                            newUser.email = email == "parent@demo" ? "parent@demo.com.tw" : email
                             
                             //註冊新使用者
                             newUser.signUp()
@@ -266,7 +268,7 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate,UIA
                         //成功登入後已不為nil
                         let currentUser = PFUser.currentUser()
                         //user可能會換email,所以每次登入都覆寫email
-                        currentUser?.email = email
+                        currentUser?.email = email == "parent@demo" ? "parent@demo.com.tw" : email
                         
                         //準備訂閱的頻道
                         var channels = [String]()
@@ -281,16 +283,21 @@ class LoginViewCtrl: UIViewController,UIWebViewDelegate,UIScrollViewDelegate,UIA
                         }
                         
                         currentUser?.setObject(channels, forKey: "channels")
+                        //currentUser?.setObject(["test"], forKey: "channels")
                         
-                        currentUser?.saveInBackground()
+                        //currentUser?.saveInBackground()
+                        
+                        currentUser?.saveInBackgroundWithBlock({ (success, error) -> Void in
+                            if !success{
+                                println(error)
+                            }
+                        })
                         
                         //Device紀錄使用者
                         let installation = PFInstallation.currentInstallation()
                         
                         installation["user"] = currentUser
-                        
                         installation.saveInBackground()
-                        
                         //呼叫回調
                         callback()
                     })

@@ -804,18 +804,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xE9-dw-zmN">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xE9-dw-zmN">
                                                     <rect key="frame" x="3" y="3" width="74" height="74"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="xE9-dw-zmN" firstAttribute="centerY" secondItem="dFW-rO-WYH" secondAttribute="centerY" id="FlX-qB-efQ"/>
-                                            <constraint firstItem="xE9-dw-zmN" firstAttribute="centerX" secondItem="dFW-rO-WYH" secondAttribute="centerX" id="Po8-6H-hqZ"/>
-                                            <constraint firstItem="xE9-dw-zmN" firstAttribute="top" secondItem="dFW-rO-WYH" secondAttribute="topMargin" constant="-5" id="r2a-Ra-DK3"/>
-                                            <constraint firstItem="xE9-dw-zmN" firstAttribute="leading" secondItem="dFW-rO-WYH" secondAttribute="leadingMargin" constant="-5" id="ynk-YS-pi6"/>
-                                        </constraints>
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="Flr-0T-0H1" customClass="HeaderCell" customModule="NanGang" customModuleProvider="target">
@@ -884,7 +879,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YYL-cC-7ZP" id="VtA-Ec-Vuf">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DYr-rI-FGT">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DYr-rI-FGT">
                                                     <rect key="frame" x="437" y="7" width="145" height="135"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="145" id="xIJ-MO-p8R"/>
