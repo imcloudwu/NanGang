@@ -43,8 +43,13 @@ class IntegrateDetailViewCtrl: UIViewController {
         
         var jsonResult = NSJSONSerialization.JSONObjectWithData(content.dataValue, options: nil, error: nil) as! NSDictionary!
         
-        if count(date) >= 19{
-            dateLabel.text = (date as NSString).substringToIndex(19)
+        if count(date) >= 10{
+            if date.rangeOfString("-") == nil{
+                dateLabel.text = (date as NSString).substringToIndex(8)
+            }
+            else{
+                dateLabel.text = (date as NSString).substringToIndex(10)
+            }
         }
         else{
             dateLabel.text = "error date time format"

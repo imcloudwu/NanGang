@@ -20,7 +20,7 @@ import UIKit
 class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIActionSheetDelegate {
     
     internal enum SystemType:Int{
-        case Bulletin,Library,Health
+        case Bulletin,Library,Health,Other
     }
     
     var _data:[IntegrateData]!
@@ -57,8 +57,16 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         else if segment.selectedSegmentIndex == 2{
             _currentSystemType = SystemType.Health
         }
+        else{
+            _currentSystemType = SystemType.Other
+        }
         
-        GetData()
+        if _currentSystemType != SystemType.Other{
+            GetData()
+        }
+        else{
+            GetPrototypeData()
+        }
     }
     
     override func viewDidLoad() {
@@ -185,12 +193,12 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 var dataItem: PDBarChartDataItem = PDBarChartDataItem()
                 dataItem.xMax = 10
                 dataItem.xInterval = 1
-                dataItem.yMax = 100
-                dataItem.yInterval = 50
+                dataItem.yMax = 20
+                dataItem.yInterval = 5
                 //dataItem.barPointArray = [CGPoint(x:1.0,y:100.0),CGPoint(x:9.0,y:90.0)]
                 dataItem.barPointArray = chartData
-                dataItem.xAxesDegreeTexts = ["總", "哲", "宗", "自", "應", "社", "中", "世", "語", "美"]
-                dataItem.yAxesDegreeTexts = ["50","100"]
+                dataItem.xAxesDegreeTexts = ["總", "哲", "宗", "自", "應", "社", "歷", "地", "語", "美"]
+                dataItem.yAxesDegreeTexts = ["5","10","15","20"]
                 
                 let width = cell.contentView.frame.width
                 let swidth = cell.contentView.frame.size.width
@@ -203,19 +211,38 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 barChart.strokeChart()
             }
             else if self._data[indexPath.row].Type == "health"{
-                var dataItem: PDLineChartDataItem = PDLineChartDataItem()
-                dataItem.xMax = 6.0
-                dataItem.xInterval = 1.0
-                dataItem.yMax = 30.0
-                dataItem.yInterval = 10.0
-                dataItem.pointArray = [CGPoint(x: 1.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 2.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 3.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 4.0, y:CGFloat(arc4random_uniform(30))), CGPoint(x: 5.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 6.0, y: CGFloat(arc4random_uniform(30)))]
-                dataItem.xAxesDegreeTexts = ["99", "100", "101", "102", "103", "104"]
-                dataItem.yAxesDegreeTexts = ["10", "20", "30"]
+//                var dataItem: PDLineChartDataItem = PDLineChartDataItem()
+//                dataItem.xMax = 6.0
+//                dataItem.xInterval = 1.0
+//                dataItem.yMax = 30.0
+//                dataItem.yInterval = 10.0
+//                dataItem.pointArray = [CGPoint(x: 1.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 2.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 3.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 4.0, y:CGFloat(arc4random_uniform(30))), CGPoint(x: 5.0, y: CGFloat(arc4random_uniform(30))), CGPoint(x: 6.0, y: CGFloat(arc4random_uniform(30)))]
+//                dataItem.xAxesDegreeTexts = ["99", "100", "101", "102", "103", "104"]
+//                dataItem.yAxesDegreeTexts = ["10", "20", "30"]
+//                
+//                var lineChart: PDLineChart = PDLineChart(frame: CGRectMake(0, -40, ScreenWidth, 200), dataItem: dataItem)
+//                
+//                cell.contentView.addSubview(lineChart)
+//                lineChart.strokeChart()
+                var imgView = UIImageView(frame: CGRectMake(0, 0, 300, 150))
+                imgView.contentMode = UIViewContentMode.ScaleToFill
                 
-                var lineChart: PDLineChart = PDLineChart(frame: CGRectMake(0, -40, ScreenWidth, 200), dataItem: dataItem)
+                if indexPath.row == 0{
+                    imgView.image = UIImage(named: "身高chart.png")
+                }
+                else if indexPath.row == 1{
+                    imgView.frame.size.height = 100
+                    imgView.image = UIImage(named: "身高sum.PNG")
+                }
+                else if indexPath.row == 2{
+                    imgView.image = UIImage(named: "體重chart.PNG")
+                }
+                else if indexPath.row == 3{
+                    imgView.frame.size.height = 100
+                    imgView.image = UIImage(named: "體重sum.PNG")
+                }
                 
-                cell.contentView.addSubview(lineChart)
-                lineChart.strokeChart()
+                cell.contentView.addSubview(imgView)
             }
             
             return cell
@@ -225,8 +252,13 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
             
             let date = self._data[indexPath.row].Date
             
-            if count(date) >= 10{
-                cell.Date.text = (self._data[indexPath.row].Date as NSString).substringToIndex(10)
+            if count(date) >= 10 {
+                if date.rangeOfString("-") == nil{
+                    cell.Date.text = (self._data[indexPath.row].Date as NSString).substringToIndex(8)
+                }
+                else{
+                    cell.Date.text = (self._data[indexPath.row].Date as NSString).substringToIndex(10)
+                }
             }
             else{
                 cell.Date.text = "error date time format"
@@ -242,13 +274,19 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
             case "library":
                 
                 cell.icon.image = LibraryIcon
-                cell.Content.text = "書籍名稱 : \(self._data[indexPath.row].Book)"
+                cell.Content.text = "書籍名稱 : \(self._data[indexPath.row].BookName)"
                 
-            default:
+            case "health":
                 
                 cell.icon.image = HealthIcon
                 cell.Content.text = self._data[indexPath.row].Title
                 
+            default:
+                
+                let other_cell = tableView.dequeueReusableCellWithIdentifier("titleOnlyCell") as! TitleOnlyCell
+                other_cell.Title.text = self._data[indexPath.row].Title
+                
+                return other_cell
             }
             
             return cell
@@ -269,17 +307,63 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
             
             self.navigationController?.pushViewController(nextView, animated: true)
         }
-        else{
+        else if self._data[indexPath.row].Type != "Works"{
             let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("IntegrateBrowser") as! IntegrateBrowserCtrl
             nextView.content = self._data[indexPath.row].Content
             
             self.navigationController?.pushViewController(nextView, animated: true)
         }
+        else{
+            let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("worksPreviewCtrl") as! WorksPreviewCtrl
+            var data = [UIImage]()
+            
+            switch self._data[indexPath.row].Title{
+            case "作文集":
+                
+                data.append(UIImage(named: "b1.jpg")!)
+                data.append(UIImage(named: "b2.jpg")!)
+                data.append(UIImage(named: "b3.jpg")!)
+                data.append(UIImage(named: "b4.jpg")!)
+                
+                
+            case "獎狀集":
+                
+                data.append(UIImage(named: "c1.jpg")!)
+                data.append(UIImage(named: "c2.jpg")!)
+                data.append(UIImage(named: "c3.jpg")!)
+                data.append(UIImage(named: "c4.jpg")!)
+                
+            case "美術集":
+                
+                data.append(UIImage(named: "a1.jpg")!)
+                data.append(UIImage(named: "a2.jpg")!)
+                data.append(UIImage(named: "a3.jpg")!)
+                data.append(UIImage(named: "a4.jpg")!)
+                
+            default:
+                
+                data.append(UIImage(named: "d1.jpg")!)
+                data.append(UIImage(named: "d2.jpg")!)
+                data.append(UIImage(named: "d3.jpg")!)
+                data.append(UIImage(named: "d4.jpg")!)
+            }
+            
+            nextView._data = data
+            
+            self.navigationController?.pushViewController(nextView, animated: true)
+        }
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
         if self._data[indexPath.row].Title == "chart"{
+            if self._data[indexPath.row].Content == "sum"{
+                return 100
+            }
             return 150
+        }
+        else if self._data[indexPath.row].Type == "Works"{
+            return 33
         }
         
         return 80.0
@@ -304,9 +388,14 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         }
         else if _currentSystemType == SystemType.Library{
             systemType = "library"
+            self._data.append(IntegrateData(Date: "", Title: "chart", Content: "有個圖", Type: systemType))
         }
         else if _currentSystemType == SystemType.Health{
             systemType = "health"
+            self._data.append(IntegrateData(Date: "", Title: "chart", Content: "有個圖", Type: systemType))
+            self._data.append(IntegrateData(Date: "", Title: "chart", Content: "sum", Type: systemType))
+            self._data.append(IntegrateData(Date: "", Title: "chart", Content: "有個圖", Type: systemType))
+            self._data.append(IntegrateData(Date: "", Title: "chart", Content: "sum", Type: systemType))
         }
         
         _queryConnector.SendRequest("Query", body: "<Request><Condition><StudentIdNumber>\(StudentIdNumber)</StudentIdNumber><SystemType>\(systemType)</SystemType></Condition></Request>", function: { (response) -> () in
@@ -324,28 +413,24 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 data.LoadData(self._currentSystemType)
                 
                 self._data.append(data)
-                
-                //self._data.append(IntegrateData(Date: lastUpdate, Title: messageTitle, Content: messageContent, Type: systemType))
             }
             
-            if self._currentSystemType != SystemType.Bulletin{
+            if self._currentSystemType == SystemType.Library{
                 
                 self._chartData.removeAll(keepCapacity: false)
                 
+                for key in 0...9{
+                    self._chartData[String(key)] = 0
+                }
+                
                 for each in self._data{
                     var data : IntegrateData = each as IntegrateData
-                    if data.Isbn != ""{
-                        let key = (data.Isbn as NSString).substringToIndex(1)
-                        
-                        if self._chartData[key] == nil{
-                            self._chartData[key] = 0
-                        }
+                    if data.BookGroup != ""{
+                        let key = (data.BookGroup as NSString).substringToIndex(1)
                         
                         self._chartData[key] = self._chartData[key]! + 1
                     }
                 }
-                
-                self._data.insert(IntegrateData(Date: "", Title: "chart", Content: "有個圖", Type: systemType), atIndex: 0)
             }
             
             self.tableView.reloadData()
@@ -384,6 +469,16 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         }
     }
     
+    func GetPrototypeData(){
+        _data.removeAll(keepCapacity: false)
+        
+        _data.append(IntegrateData(Date: "", Title: "作文集", Content: "", Type: "Works"))
+        _data.append(IntegrateData(Date: "", Title: "獎狀集", Content: "", Type: "Works"))
+        _data.append(IntegrateData(Date: "", Title: "美術集", Content: "", Type: "Works"))
+        _data.append(IntegrateData(Date: "", Title: "考卷集", Content: "", Type: "Works"))
+        
+        tableView.reloadData()
+    }
 }
 
 class IntegrateData{
@@ -392,16 +487,16 @@ class IntegrateData{
     var Title:String!
     var Content:String!
     var Type:String!
-    var Book:String!
-    var Isbn:String!
+    var BookName:String!
+    var BookGroup:String!
     
     init(Date:String?,Title:String?,Content:String?,Type:String?){
         self.Date = Date
         self.Title = Title == nil ? "" : Title
         self.Content = Content
         self.Type = Type
-        self.Book = ""
-        self.Isbn = ""
+        self.BookName = ""
+        self.BookGroup = ""
     }
     
     func LoadData(type:IntegrateViewCtrl.SystemType){
@@ -412,16 +507,26 @@ class IntegrateData{
             
             if let jsonResult = NSJSONSerialization.JSONObjectWithData(Content.dataValue, options: nil, error: nil) as? NSDictionary{
                 if let bookName = jsonResult["book"] as? String{
-                    Book = bookName
+                    BookName = bookName
                 }
                 
-                if let bookNumber = jsonResult["isbm"] as? String{
-                    Isbn = bookNumber
+                if let dateOut = jsonResult["dateOut"] as? String{
+                    Date = dateOut
+                }
+                
+                if let bookGrp = jsonResult["bookGrp"] as? String{
+                    BookGroup = bookGrp
                 }
             }
             
         default:
-            println("load other type data")
+            
+            if let jsonResult = NSJSONSerialization.JSONObjectWithData(Content.dataValue, options: nil, error: nil) as? NSDictionary{
+                
+                if let pub_date = jsonResult["pub_date"] as? String{
+                    Date = pub_date
+                }
+            }
         }
     }
 }

@@ -137,4 +137,32 @@ class FaceDetectCell: UITableViewCell {
     }
 }
 
+class TitleOnlyCell: UITableViewCell {
+    
+    @IBOutlet weak var Title: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        // Configure the view for the selected state
+    }
+}
+
+class WorkAlbumCell: UITableViewCell {
+    
+    @IBOutlet weak var ImageView: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        // Configure the view for the selected state
+    }
+}
+
 

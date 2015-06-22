@@ -19,6 +19,7 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
     var _SelectPicId:String!
     var _DataArray:[String]!
     var _currentIndex:Int!
+    var _ImageArray:[UIImage]!
     
     func left_swip(){
         //向左滑動代表要看右邊的,index要變大
@@ -27,6 +28,12 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
             _SelectPicId = _DataArray[_currentIndex]
             GetImg(_SelectPicId)
             
+            showAminationOnAdvert(kCATransitionFromRight)
+        }
+        
+        if _ImageArray.count > 0 && _currentIndex != nil && _currentIndex < _ImageArray.count - 1{
+            _currentIndex = _currentIndex + 1
+            imageView.image = _ImageArray[_currentIndex]
             showAminationOnAdvert(kCATransitionFromRight)
         }
     }
@@ -39,6 +46,21 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
             GetImg(_SelectPicId)
             
             showAminationOnAdvert(kCATransitionFromLeft)
+        }
+        
+        if _ImageArray.count > 0 && _currentIndex != nil && _currentIndex != 0{
+            _currentIndex = _currentIndex - 1
+            imageView.image = _ImageArray[_currentIndex]
+            showAminationOnAdvert(kCATransitionFromLeft)
+        }
+    }
+    
+    func tap_action(){
+        if scrView.zoomScale < 4.0{
+            scrView.zoomScale = 4.0
+        }
+        else{
+            scrView.zoomScale = 1.0
         }
     }
     
@@ -58,15 +80,23 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        progressBar.hidden = true
+        
         if _DataArray == nil {
             _DataArray = [String]()
+        }
+        
+        if _ImageArray == nil{
+            _ImageArray = [UIImage]()
         }
         
         //self.automaticallyAdjustsScrollViewInsets = false
         
         scrView.delegate = self
-        scrView.maximumZoomScale = 2.0
+        scrView.maximumZoomScale = 4.0
         scrView.minimumZoomScale = 1.0
+        scrView.showsHorizontalScrollIndicator = false
+        scrView.showsVerticalScrollIndicator = false
         
         let leftGesture = UISwipeGestureRecognizer(target: self, action: "left_swip")
         leftGesture.direction = UISwipeGestureRecognizerDirection.Left
@@ -74,13 +104,20 @@ class DetailViewCtrl: UIViewController, UIScrollViewDelegate,UIAlertViewDelegate
         let rightGesture = UISwipeGestureRecognizer(target: self, action: "right_swip")
         rightGesture.direction = UISwipeGestureRecognizerDirection.Right
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: "tap_action")
+        tapGesture.numberOfTapsRequired = 2
+        
         scrView.addGestureRecognizer(leftGesture)
         scrView.addGestureRecognizer(rightGesture)
+        scrView.addGestureRecognizer(tapGesture)
         
         self.navigationController?.interactivePopGestureRecognizer.enabled = false
         
         if _SelectPicId != nil{
             GetImg(_SelectPicId)
+        }
+        else if _currentIndex < _ImageArray.count{
+            imageView.image = _ImageArray[_currentIndex]
         }
     }
     
