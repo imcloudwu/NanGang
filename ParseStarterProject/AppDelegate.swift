@@ -86,8 +86,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        Global.MyDeviceToken = installation.deviceToken
-        installation.saveInBackground()
+        installation.saveInBackgroundWithBlock { (success, error) -> Void in
+            Global.MyDeviceToken = installation.deviceToken
+            Global.Callback()
+        }
         
         PFPush.subscribeToChannelInBackground("") { (succeeded, error) -> Void in
             if succeeded {
@@ -124,12 +126,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication){
         //app 被喚醒時確保是有效的連線
-        if let con = Global.connector{
-            if !con.GetSessionID(){
-                con.GetAccessToken(ConnectType.RefreshToken)
-                con.GetSessionID()
-            }
-        }
+//        if let con = Global.connector{
+//            if !con.GetSessionID(){
+//                con.GetAccessToken(ConnectType.RefreshToken)
+//                con.GetSessionID()
+//            }
+//        }
+        
 //        let installation = PFInstallation.currentInstallation()
 //        
 //        if installation.badge != 0{

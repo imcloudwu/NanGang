@@ -10,9 +10,11 @@ import UIKit
 
 class IntegrateDetailViewCtrl: UIViewController {
     
-    var content:String!
-    var date:String!
-    var type:String!
+//    var content:String!
+//    var date:String!
+//    var type:String!
+    
+    var data:IntegrateData!
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var booknameLabel: UILabel!
@@ -29,6 +31,8 @@ class IntegrateDetailViewCtrl: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        aboutTextView.editable = false
+        
         title1.layer.masksToBounds = true
         title1.layer.cornerRadius = 5
         
@@ -41,35 +45,62 @@ class IntegrateDetailViewCtrl: UIViewController {
         title4.layer.masksToBounds = true
         title4.layer.cornerRadius = 5
         
-        var jsonResult = NSJSONSerialization.JSONObjectWithData(content.dataValue, options: nil, error: nil) as! NSDictionary!
+        //var jsonResult = NSJSONSerialization.JSONObjectWithData(content.dataValue, options: nil, error: nil) as! NSDictionary!
         
-        if count(date) >= 10{
-            if date.rangeOfString("-") == nil{
-                dateLabel.text = (date as NSString).substringToIndex(8)
+        if count(data.Date) >= 10{
+            if data.Date.rangeOfString("-") == nil{
+                dateLabel.text = (data.Date as NSString).substringToIndex(8)
             }
             else{
-                dateLabel.text = (date as NSString).substringToIndex(10)
+                dateLabel.text = (data.Date as NSString).substringToIndex(10)
             }
         }
         else{
             dateLabel.text = "error date time format"
         }
         
-        if let book = jsonResult["book"] as? String{
-            booknameLabel.text = book
-        }
+        booknameLabel.text = data.BookName
+        codeLabel.text = data.BookISBN
         
-        if let isbm = jsonResult["isbm"] as? String{
-            codeLabel.text = isbm
+        if data.BookGroup != ""{
+            let firstChar = (data.BookGroup as NSString).substringToIndex(1)
+            
+            if let int_key = firstChar.toInt(){
+                aboutTextView.text = "查無此書籍簡介。(\(GetTypeName(int_key)))"
+            }
         }
-        
-        aboutTextView.editable = false
-        aboutTextView.text = "查無此書籍相關簡介"
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func GetTypeName(code:Int) -> String{
+        switch code{
+        case 0:
+            return "總類"
+        case 1:
+            return "哲學類"
+        case 2:
+            return "宗教類"
+        case 3:
+            return "自然科學類"
+        case 4:
+            return "應用科學類"
+        case 5:
+            return "社會科學類"
+        case 6:
+            return "中國史地類"
+        case 7:
+            return "外國史地類"
+        case 8:
+            return "語文類"
+        case 9:
+            return "美術類"
+        default:
+            return "查無分類資訊"
+        }
     }
 }
 

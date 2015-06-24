@@ -129,8 +129,9 @@ public class Connector{
     
     public func GetAccessToken(type:ConnectType) -> Bool {
         
+        let url = self.getAuthUrl(type)
         self.AccessToken = nil
-        self.RefreshToken == nil
+        self.RefreshToken = nil
         
         var response:AutoreleasingUnsafeMutablePointer<NSURLResponse?> = nil
         var error: NSErrorPointer = nil
@@ -138,7 +139,7 @@ public class Connector{
         var request = NSMutableURLRequest()
         
         //request.URL = NSURL.URLWithString(self.getAuthUrl(type))
-        request.URL = NSURL(string: self.getAuthUrl(type))
+        request.URL = NSURL(string: url)
         
         // Sending Synchronous request using NSURLConnection
         

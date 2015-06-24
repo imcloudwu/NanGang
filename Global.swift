@@ -33,6 +33,10 @@ struct Global {
         callback = set
     }
     
+    static func RemoveCallback(){
+        callback = nil
+    }
+    
     static func Callback(){
         if callback != nil{
             callback()

@@ -86,6 +86,10 @@ class LastNewsCtrl: UIViewController,UITableViewDataSource,UITableViewDelegate,U
 //        
         Keychain.delete("refreshToken")
         
+        let installation = PFInstallation.currentInstallation()
+        installation.removeObjectForKey("user")
+        installation.saveInBackground()
+        
         let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("loginView") as! UIViewController
         self.presentViewController(nextView, animated: true, completion: nil)
     }

@@ -200,10 +200,10 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 dataItem.xAxesDegreeTexts = ["總", "哲", "宗", "自", "應", "社", "歷", "地", "語", "美"]
                 dataItem.yAxesDegreeTexts = ["5","10","15","20"]
                 
-                let width = cell.contentView.frame.width
-                let swidth = cell.contentView.frame.size.width
-                let height = cell.contentView.frame.height
-                let sheight = cell.contentView.frame.size.height
+//                let width = cell.contentView.frame.width
+//                let swidth = cell.contentView.frame.size.width
+//                let height = cell.contentView.frame.height
+//                let sheight = cell.contentView.frame.size.height
                 
                 var barChart: PDBarChart = PDBarChart(frame: CGRectMake(0, -40, ScreenWidth, 200), dataItem: dataItem)
                 
@@ -224,11 +224,11 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
 //                
 //                cell.contentView.addSubview(lineChart)
 //                lineChart.strokeChart()
-                var imgView = UIImageView(frame: CGRectMake(0, 0, 300, 150))
+                var imgView = UIImageView(frame: CGRectMake(0, 0, ScreenWidth - 20, 150))
                 imgView.contentMode = UIViewContentMode.ScaleToFill
                 
                 if indexPath.row == 0{
-                    imgView.image = UIImage(named: "身高chart.png")
+                    imgView.image = UIImage(named: "身高chart.PNG")
                 }
                 else if indexPath.row == 1{
                     imgView.frame.size.height = 100
@@ -301,9 +301,10 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
         }
         else if _currentSystemType == SystemType.Library{
             let nextView = self.storyboard?.instantiateViewControllerWithIdentifier("IntegrateDetail") as! IntegrateDetailViewCtrl
-            nextView.date = self._data[indexPath.row].Date
-            nextView.type = self._data[indexPath.row].Type
-            nextView.content = self._data[indexPath.row].Content
+            nextView.data = self._data[indexPath.row]
+//            nextView.date = self._data[indexPath.row].Date
+//            nextView.type = self._data[indexPath.row].Type
+//            nextView.content = self._data[indexPath.row].Content
             
             self.navigationController?.pushViewController(nextView, animated: true)
         }
@@ -419,16 +420,21 @@ class IntegrateViewCtrl: UIViewController,UITableViewDataSource,UITableViewDeleg
                 
                 self._chartData.removeAll(keepCapacity: false)
                 
-                for key in 0...9{
-                    self._chartData[String(key)] = 0
+                for index in 0...9{
+                    self._chartData[String(index)] = 0
                 }
                 
                 for each in self._data{
                     var data : IntegrateData = each as IntegrateData
                     if data.BookGroup != ""{
-                        let key = (data.BookGroup as NSString).substringToIndex(1)
+                        let firstChar = (data.BookGroup as NSString).substringToIndex(1)
                         
-                        self._chartData[key] = self._chartData[key]! + 1
+                        if let int_key = firstChar.toInt(){
+                            let key = String(int_key)
+                            //if contains(self._chartData.keys, key){
+                            self._chartData[key] = self._chartData[key]! + 1
+                            //}
+                        }
                     }
                 }
             }
@@ -489,6 +495,7 @@ class IntegrateData{
     var Type:String!
     var BookName:String!
     var BookGroup:String!
+    var BookISBN:String!
     
     init(Date:String?,Title:String?,Content:String?,Type:String?){
         self.Date = Date
@@ -497,6 +504,7 @@ class IntegrateData{
         self.Type = Type
         self.BookName = ""
         self.BookGroup = ""
+        self.BookISBN = ""
     }
     
     func LoadData(type:IntegrateViewCtrl.SystemType){
@@ -516,6 +524,10 @@ class IntegrateData{
                 
                 if let bookGrp = jsonResult["bookGrp"] as? String{
                     BookGroup = bookGrp
+                }
+                
+                if let isbm = jsonResult["isbm"] as? String{
+                    BookISBN = isbm
                 }
             }
             
